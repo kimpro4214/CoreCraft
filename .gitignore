@@ -30,7 +30,11 @@
 *.lai
 *.la
 *.a
-*.lib
+# *.lib는 Libraries/ 하위의 써드파티 라이브러리를 허용하기 위해 개별 경로로 제외
+# *.lib
+
+# 빌드 생성 .lib 파일만 제외 (프로젝트 출력물)
+GameCoding/**/*.lib
 
 # Executables
 *.exe
