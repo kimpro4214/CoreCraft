@@ -1,0 +1,68 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Linker files
+*.ilk
+
+# Debugger Files
+*.pdb
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# debug information files
+*.dwo
+
+# --- Visual Studio 관련 (필수) ---
+.vs/                   # IDE가 생성하는 거대 프로젝트 데이터 (가장 중요!)
+[Bb]in/                # 실행 파일 출력 폴더
+[Oo]bj/                # 중간 컴파일 객체 폴더
+*.user                 # 개별 사용자 설정 (내 컴퓨터에서만 쓰는 설정)
+*.suo                  # 솔루션 사용자 옵션
+*.ncb
+*.openedderivation
+*.db
+*.opendb               # 인텔리센스용 데이터베이스
+
+# --- 빌드 결과물 경로 (관례적 이름) ---
+Debug/
+Release/
+x64/
+x86/
+
+# --- 기타 임시 파일 ---
+*.log
+*.tlog
+*.lastbuildstate
+
+# 빌드 결과물 폴더 전체 제외
+Binaries/
+[Bb]in/
+[Oo]bj/
