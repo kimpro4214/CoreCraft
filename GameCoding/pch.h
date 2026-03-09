@@ -1,21 +1,21 @@
 #pragma once
 
 #include "Types.h"
-#include "Struct.h"
 #include "Values.h"
+#include "Struct.h"
 
-//STL
+// STL
 #include <vector>
 #include <list>
 #include <map>
 #include <unordered_map>
 using namespace std;
 
-//WIN
+// WIN
 #include <windows.h>
 #include <assert.h>
 
-//DX
+// DX
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <wrl.h>
@@ -34,3 +34,4 @@ using namespace Microsoft::WRL;
 #pragma comment(lib, "DirectXTex\\DirectXTex.lib")
 #endif
 
+#define CHECK(p)	assert(SUCCEEDED(p))
