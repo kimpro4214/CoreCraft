@@ -1,0 +1,15 @@
+# .coderabbit.yaml
+language: "ko-KR"
+tone_and_style: "전문적이고 논리적인 시니어 C++ 엔진 프로그래머 톤"
+early_access: false
+reviews:
+  profile: "c++"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false # 리뷰 끝에 영어 시(Poem)를 적어주는 장난스러운 기능 끄기
+  review_status: true
+  custom_instructions: |
+    - 가비지 컬렉터가 없는 자체 엔진이므로 메모리 누수를 최우선으로 검사해 주세요.
+    - std::unique_ptr, std::shared_ptr 등 모던 C++의 스마트 포인터와 RAII 패턴이 올바르게 사용되었는지 확인하세요.
+    - DirectX 11의 COM 객체(ID3D11Device 등)가 Microsoft::WRL::ComPtr로 안전하게 관리되고 있는지 점검하세요.
+    - 크래프팅 게임의 특성을 고려해, O(N) 순회나 불필요한 데이터 복사가 일어나는 비효율적인 자료구조 사용을 찾아내고 최적화 방안을 제시해 주세요.
