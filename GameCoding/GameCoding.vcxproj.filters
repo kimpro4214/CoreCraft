@@ -72,4 +72,9 @@
       <Filter>소스 파일\1. Main</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".coderabbit.yaml">
+      <Filter>소스 파일</Filter>
+    </None>
+  </ItemGroup>
 </Project>
