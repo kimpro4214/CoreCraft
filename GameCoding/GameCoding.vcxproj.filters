@@ -10,27 +10,30 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="소스 파일\99. Headers">
-      <UniqueIdentifier>{620f3790-bdbc-4a33-9fe4-82eee2e1c20a}</UniqueIdentifier>
+      <UniqueIdentifier>{ba2e96f3-c76b-4822-a752-a6d9197fd0bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\1. Main">
-      <UniqueIdentifier>{a2521a92-ee1e-4e2c-8872-11f7be3220f8}</UniqueIdentifier>
+    <Filter Include="소스 파일\01. Main">
+      <UniqueIdentifier>{bd57b81e-82bd-435b-abea-b215191eaa49}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\99. Headers\Andromeda">
-      <UniqueIdentifier>{d8e8b18a-78e5-40b3-887b-0ef68148accf}</UniqueIdentifier>
+      <UniqueIdentifier>{694fd2b7-6b98-4c2d-b89c-e416ceec34c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\98. Shaders">
+      <UniqueIdentifier>{7a9ab2b2-4c61-411e-93a1-113cc3d7e49b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
+    <ClInclude Include="pch.h">
+      <Filter>소스 파일\99. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
       <Filter>소스 파일\99. Headers\Andromeda</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>소스 파일\99. Headers\Andromeda</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="framework.h">
       <Filter>소스 파일\99. Headers\Andromeda</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>소스 파일\99. Headers</Filter>
     </ClInclude>
     <ClInclude Include="Values.h">
       <Filter>소스 파일\99. Headers</Filter>
@@ -42,10 +45,10 @@
       <Filter>소스 파일\99. Headers</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>소스 파일\1. Main</Filter>
+      <Filter>소스 파일\01. Main</Filter>
     </ClInclude>
     <ClInclude Include="GameCoding.h">
-      <Filter>소스 파일\1. Main</Filter>
+      <Filter>소스 파일\01. Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,19 +65,19 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameCoding.cpp">
-      <Filter>소스 파일\1. Main</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\99. Headers</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>소스 파일\1. Main</Filter>
+      <Filter>소스 파일\01. Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCoding.cpp">
+      <Filter>소스 파일\01. Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include=".coderabbit.yaml">
-      <Filter>소스 파일</Filter>
-    </None>
+    <FxCompile Include="Default.hlsl">
+      <Filter>소스 파일\98. Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
