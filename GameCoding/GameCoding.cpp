@@ -19,29 +19,25 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-
     // 1) 윈도우 창 정보 등록
     MyRegisterClass(hInstance);
 
     // 2) 윈도우 창 생성
     if (!InitInstance (hInstance, nCmdShow))
-    {
         return FALSE;
-    }
 
     Game game;
     game.Init(hWnd);
-
 
     MSG msg = {};
 
     // 기본 메시지 루프입니다:
     while (msg.message != WM_QUIT)
     {
-        if (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) 
+        if (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
         }
         else
         {
@@ -95,7 +91,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   RECT windowRect = { 0, 0, GWinSizeX, GWinSizeY };
+   RECT windowRect = {0, 0, GWinSizeX, GWinSizeY};
    ::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
 
    hWnd = CreateWindowW(L"GameCoding", L"Client", WS_OVERLAPPEDWINDOW,
