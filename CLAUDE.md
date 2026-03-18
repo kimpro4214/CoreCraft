@@ -30,10 +30,6 @@
   - `refactor`: 동작 변경 없는 코드 구조 개선
   - `docs`: 문서/주석 변경
 - 메시지는 **한국어**로, 변경 이유와 내용을 간결하게 작성해.
-- 모든 커밋 메시지 마지막에 반드시 다음을 추가해:
-  ```
-  Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-  ```
 
 ## 6. Git 브랜치 및 PR 규칙 (중요)
 - 작업은 항상 `dev` 브랜치에서 진행해.
