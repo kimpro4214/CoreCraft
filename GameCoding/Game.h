@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Graphics.h"
 
 class Game
 {
@@ -13,13 +14,6 @@ public:
 	void Render();
 
 private:
-	void RenderBegin();
-	void RenderEnd();
-
-private:
-	void CreateDeviceAndSwapChain();
-	void CreateRenderTargetView();
-	void SetViewport();
 
 private:
 	void CreateGeometry();
@@ -38,29 +32,15 @@ private:
 
 private:
 	HWND _hwnd;
-	uint32 _width = 0;
-	uint32 _height = 0;
 
-private:
-	// Device & SwapChain
-	ComPtr<ID3D11Device> _device = nullptr;
-	ComPtr<ID3D11DeviceContext> _deviceContext = nullptr;
-	ComPtr<IDXGISwapChain> _swapChain = nullptr;
-
-	/// RTV
-	ComPtr<ID3D11RenderTargetView> _renderTargetView;
-
-	// Misc
-	D3D11_VIEWPORT _viewport = {0};
-	float _clearColor[4] = { 0.f, 0.f, 0.f, 0.f };
+	shared_ptr<Graphics> _graphics;
 
 private:
 	// Geometry
-	vector<Vertex> _vertices;
-	ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
-	vector<uint32> _indices;
-	ComPtr<ID3D11Buffer> _indexBuffer = nullptr;
-	ComPtr<ID3D11InputLayout> _inputLayout = nullptr;
+	shared_ptr<Geometry<VertexTextureData>> _geometry;
+	shared_ptr<VertexBuffer> _vertexBuffer;
+	shared_ptr<IndexBuffer> _indexBuffer;
+	shared_ptr<InputLayout> _inputLayout;
 
 	// VS
 	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
@@ -84,5 +64,9 @@ private:
 	// SRT
 	TransformData _transformData;
 	ComPtr<ID3D11Buffer> _constantBuffer;
+
+	Vec3 _localPosition = {0.f, 0.f, 0.f};
+	Vec3 _localRotation = {0.f, 0.f, 0.f};
+	Vec3 _localScale = {1.f, 1.f, 1.f};
 };
 
