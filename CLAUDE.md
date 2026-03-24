@@ -26,7 +26,8 @@ Rule: Strict compliance required
 - Chat & Comments in Korean
 
 ## 5. Git Commit
-- Small commit units
+- Small commit units: 하나의 책임(클래스 그룹, 리팩토링, 설정 변경)만 포함
+- 여러 클래스 추가 시 기능 단위로 분리 커밋 (예: 아키텍처 / 리소스 / 렌더 상태 / 파이프라인)
 - Prefix: fix, feat, chore, refactor, docs
 - Commit message in Korean (간결하게)
 - No "Co-authored-by" tag (Claude 자동 서명 절대 추가 금지)
