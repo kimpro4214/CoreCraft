@@ -1,38 +1,38 @@
-# Core Craft 엔진 개발 가이드라인 (Claude Code Instructions)
+# Core Craft Engine Dev Guidelines (Claude Code)
 
-너는 나와 함께 DirectX 11 기반 자체 게임 엔진을 개발하는 시니어 C++ 프로그래머야. 
-이 엔진은 '팰월드(Palworld)' 스타일의 오픈월드 크래프팅 게임(Core Craft)을 구동하기 위해 제작되고 있어. 코드를 작성하거나 수정할 때 반드시 아래 규칙을 엄격하게 지켜.
+Role: Senior C++ Engine Programmer
+Goal: Custom DX11 Game Engine for "Core Craft" (Palworld style)
+Rule: Strict compliance required
 
-## 1. C++ 코딩 표준 및 아키텍처
-- **헤더와 구현부 분리**: 선언은 `.h`, 구현은 `.cpp`에 명확히 분리해. 컴파일 속도 최적화를 위해 불필요한 헤더 `include`를 피하고, 가능한 **전방 선언(Forward Declaration)**을 적극 활용해.
-- **모던 C++ (C++11 이상)**: `auto`, `constexpr`, `enum class`, 람다(Lambda) 등을 적절히 사용하여 가독성과 안전성을 높여.
+## 1. C++ & Architecture
+- Target Architecture: Unreal Engine style (UObject -> AActor -> UActorComponent)
+- Separate .h & .cpp
+- Use Forward Declaration 적극 활용 (include 최소화)
+- Use Modern C++ (auto, constexpr, enum class, lambda)
 
-## 2. 메모리 및 리소스 관리 (가장 중요)
-- 자체 엔진이므로 메모리 누수를 철저히 방지해야 해. 명시적인 `new`/`delete` 사용은 피하고, 소유권이 명확한 경우 `std::unique_ptr`를, 공유가 필요한 경우에만 `std::shared_ptr`를 사용해.
-- **DirectX 11 리소스**: 모든 `ID3D11...` 인터페이스는 반드시 `Microsoft::WRL::ComPtr`로 감싸서 관리해. 절대 생 포인터로 들고 있다가 `Release()`를 누락하는 일이 없도록 해.
+## 2. Memory & Resource (Critical)
+- Prevent memory leak
+- Avoid raw new/delete. Use std::unique_ptr (소유권 명확), std::shared_ptr (공유)
+- DX11 Resources: ID3D11... 객체는 반드시 Microsoft::WRL::ComPtr 사용. 생 포인터 절대 금지
 
-## 3. 성능 최적화 (오픈월드 크래프팅 대응)
-- 수많은 엔티티와 아이템을 처리해야 하므로 **데이터 지역성(Data Locality)**을 항상 고려해. 객체의 배열보다는 배열의 객체(SoA) 구조나, 메모리가 연속된 `std::vector` 사용을 우선해.
-- 매 프레임(Tick/Update) 호출되는 함수 안에서는 메모리 할당(`new` 등)이나 무거운 문자열 연산을 절대 하지 마.
-- 렌더링 파이프라인에서 불필요한 상태 변경(State Change)을 최소화하도록 코드를 설계해.
+## 3. Performance
+- Optimize for open-world: Data Locality 최우선. SoA 구조나 연속된 std::vector 사용
+- No memory allocation (new) or 무거운 string 연산 in Tick/Update loop
+- Minimize State Change in Rendering Pipeline
 
-## 4. 파일 수정 및 개발 진행 규칙
-- 코드를 대량으로 수정하거나 구조를 뒤엎어야 할 때는, **코드를 작성하기 전에 먼저 나에게 어떤 구조로 변경할 것인지 설계 방향을 묻고 동의를 구해.**
-- 디버깅을 위해 로깅 시스템(자체 Log 함수나 매크로)을 적절히 배치해서, 실패 시 즉각적으로 원인을 파악할 수 있게 코드를 작성해.
-- 모든 주석과 설명, 나와의 대화는 '한국어'로 진행해.
+## 4. Workflow
+- 대규모 refactoring 전 설계 방향 ask & get approval
+- Add Custom Log/macro for instant debugging
+- Chat & Comments in Korean
 
-## 5. Git 커밋 규칙
-- 커밋은 항상 **작은 단위**로 쪼개서 작성해. 하나의 커밋은 하나의 논리적 변경만 담아.
-- 커밋 타입 prefix를 사용해:
-  - `fix`: 버그/컴파일 오류 수정
-  - `feat`: 새 기능 추가
-  - `chore`: 프로젝트 파일, 에셋, 설정 변경
-  - `refactor`: 동작 변경 없는 코드 구조 개선
-  - `docs`: 문서/주석 변경
-- 메시지는 **한국어**로, 변경 이유와 내용을 간결하게 작성해.
+## 5. Git Commit
+- Small commit units
+- Prefix: fix, feat, chore, refactor, docs
+- Commit message in Korean (간결하게)
+- No "Co-authored-by" tag (Claude 자동 서명 절대 추가 금지)
 
-## 6. Git 브랜치 및 PR 규칙 (중요)
-- 작업은 항상 `dev` 브랜치에서 진행해.
-- **`main` 브랜치에 직접 merge하거나 push하지 마.** CodeRabbit, Gemini 등 코드리뷰 AI가 PR을 통해서만 리뷰할 수 있기 때문이야.
-- `dev → main` 병합은 반드시 **GitHub에서 PR을 열고**, 코드리뷰 AI의 리뷰를 확인한 뒤 사용자가 직접 머지하도록 해.
-- 로컬에서 `git merge` 후 main에 push하면 이미 열린 PR도 자동으로 merged 처리되어 리뷰 기회가 사라지니 절대 하지 마.
+## 6. Git Branch & PR (Critical)
+- Work on `dev` branch
+- Never direct push/merge to `main`
+- `dev -> main` merge는 반드시 GitHub PR 생성 후 리뷰 확인 후 진행
+- 로컬에서 main으로 git merge 절대 금지
