@@ -9,6 +9,7 @@
 // STL
 #include <memory>
 #include <iostream>
+#include <array>
 #include <vector>
 #include <list>
 #include <map>
@@ -41,6 +42,12 @@ using namespace Microsoft::WRL;
 
 #define CHECK(p)	assert(SUCCEEDED(p))
 
+#define			GAME		GGame
+#define			INPUT		GAME->GetInputManager()
+#define			TIME		GAME->GetTimeManager()
+#define			SCENE		GAME->GetSceneManager()
+#define			RESOURCES	GAME->GetResourceManager()
+
 // Engine
 #include "Graphics.h"
 #include "VertexBuffer.h"
@@ -49,7 +56,7 @@ using namespace Microsoft::WRL;
 #include "Geometry.h"
 #include "GeometryHelper.h"
 #include "VertexData.h"
-#include "Shader.h"
+#include "ShaderBase.h"
 #include "ConstantBuffer.h"
 #include "Texture.h"
 #include "RasterizerState.h"
