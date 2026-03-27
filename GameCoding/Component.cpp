@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Component.h"
+#include "GameObject.h"
 
-Component::Component()
+Component::Component(ComponentType type) : _type(type)
 {
 
 }
@@ -11,12 +12,12 @@ Component::~Component()
 
 }
 
-void Component::Init()
+std::shared_ptr<GameObject> Component::GetGameObject()
 {
-
+	return _gameObject.lock();
 }
 
-void Component::Update()
+std::shared_ptr<Transform> Component::GetTransform()
 {
-
+	return _gameObject.lock()->GetTransform();
 }
