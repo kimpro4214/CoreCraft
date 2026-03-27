@@ -141,7 +141,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="BlendState.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="framework.h" />
@@ -153,16 +155,27 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputLayout.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="MonoBehaviour.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="RasterizerState.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceBase.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SamplerState.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderBase.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Values.h" />
@@ -170,7 +183,9 @@
     <ClInclude Include="VertexData.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BlendState.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -181,16 +196,27 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="MonoBehaviour.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="RasterizerState.cpp" />
+    <ClCompile Include="ResourceBase.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SamplerState.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexData.cpp" />
