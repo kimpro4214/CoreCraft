@@ -21,4 +21,7 @@ void Texture::Create(const wstring& path)
 
 	hr = ::CreateShaderResourceView(_device.Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourveView.GetAddressOf());
 	CHECK(hr);
+
+	_size.x = md.width;
+	_size.y = md.height;
 }
