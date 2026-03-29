@@ -20,6 +20,9 @@ using namespace std;
 #include <windows.h>
 #include <assert.h>
 
+// Utils
+#include "tinyxml2.h"
+using namespace tinyxml2;
 
 // DX
 #include <d3d11.h>
@@ -47,6 +50,7 @@ using namespace Microsoft::WRL;
 #define			TIME		GAME->GetTimeManager()
 #define			SCENE		GAME->GetSceneManager()
 #define			RESOURCES	GAME->GetResourceManager()
+#define			RENDER		GAME->GetRenderManager()
 
 // Engine
 #include "Graphics.h"
