@@ -70,3 +70,6 @@ x86/
 Binaries/
 [Bb]in/
 [Oo]bj/
+
+# Claude Code 로컬 설정
+.claude/
