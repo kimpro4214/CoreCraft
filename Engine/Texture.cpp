@@ -23,4 +23,3 @@ void Texture::Load(const wstring& path)
 	_size.x = md.width;
 	_size.y = md.height;
 }
-
