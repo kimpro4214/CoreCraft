@@ -53,16 +53,7 @@ using namespace Microsoft::WRL;
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
-
-#define CHECK(p)	assert(SUCCEEDED(p))
-#define GAME		GET_SINGLE(Game)		
-#define GRAPHICS	GET_SINGLE(Graphics)
-#define DEVICE		GRAPHICS->GetDevice()
-#define DC			GRAPHICS->GetDeviceContext()
-#define INPUT		GET_SINGLE(InputManager)
-#define TIME		GET_SINGLE(TimeManager)
-#define DT			TIME->GetDeltaTime()
-#define RESOURCES	GET_SINGLE(ResourceManager)
+#include "RenderManager.h"
 
 // Engine
 #include "VertexData.h"
