@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "09. MeshDemo.h"
+#include "10. GlobalTestDemo.h"
 #include "GeometryHelper.h"
 #include "Camera.h"
 #include "GameObject.h"
@@ -7,8 +7,10 @@
 #include "MeshRenderer.h"
 #include "Mesh.h"
 
-void MeshDemo::Init()
+void GlobalTestDemo::Init()
 {
+	_shader = make_shared<Shader>(L"08. GlobalTest.fx");
+
 	// Camera
 	_camera = make_shared<GameObject>();
 	_camera->GetOrAddTransform();
@@ -20,8 +22,7 @@ void MeshDemo::Init()
 	_obj->GetOrAddTransform();
 	_obj->AddComponent(make_shared<MeshRenderer>());
 	{
-		auto shader = make_shared<Shader>(L"07. Normal.fx");
-		_obj->GetMeshRenderer()->SetShader(shader);
+		_obj->GetMeshRenderer()->SetShader(_shader);
 	}
 	{
 		RESOURCES->Init();
@@ -32,15 +33,19 @@ void MeshDemo::Init()
 		auto texture = RESOURCES->Load<Texture>(L"Veigar", L"..\\Resources\\Textures\\veigar.jpg");
 		_obj->GetMeshRenderer()->SetTexture(texture);
 	}
+
+	RENDER->Init(_shader);
 }
 
-void MeshDemo::Update()
+void GlobalTestDemo::Update()
 {
 	_camera->Update();
+	RENDER->Update();
+
 	_obj->Update();
 }
 
-void MeshDemo::Render()
+void GlobalTestDemo::Render()
 {
 	
 }
