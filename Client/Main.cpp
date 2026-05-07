@@ -2,6 +2,13 @@
 #include "Main.h"
 #include "Engine/Game.h"
 #include "10. GlobalTestDemo.h"
+#include "11. DepthStencilDemo.h"
+#include "12. AmbientDemo.h"
+#include "13. DiffuseDemo.h"
+#include "14. SpecularDemo.h"
+#include "15. EmissiveDemo.h"
+#include "16. LightingDemo.h"
+#include "17. MaterialDemo.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -12,8 +19,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	desc.hWnd = NULL;
 	desc.width = 800;
 	desc.height = 600;
-	desc.clearColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
-	desc.app = make_shared<GlobalTestDemo>();
+	desc.clearColor = Color(0.f, 0.f, 0.f, 0.f);
+	desc.app = make_shared<MaterialDemo>();
 
 	GAME->Run(desc);
 
