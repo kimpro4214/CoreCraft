@@ -38,7 +38,6 @@ float4 PS(VertexOutput input) : SV_TARGET
 	float3 normal = normalize(input.normal);
 	float3 light = -LightDir;
 
-	//return float4(1, 1, 1, 1) * dot(light, normal);
 	return Texture0.Sample(Sampler0, input.uv) * dot(light, normal);
 }
 
