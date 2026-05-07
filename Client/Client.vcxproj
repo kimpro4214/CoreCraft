@@ -27,6 +27,7 @@
     <ClInclude Include="07. HeightMapDemo.h" />
     <ClInclude Include="08. NormalDemo.h" />
     <ClInclude Include="09. MeshDemo.h" />
+    <ClInclude Include="10. GlobalTestDemo.h" />
     <ClInclude Include="CameraScript.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="pch.h" />
@@ -41,6 +42,7 @@
     <ClCompile Include="07. HeightMapDemo.cpp" />
     <ClCompile Include="08. NormalDemo.cpp" />
     <ClCompile Include="09. MeshDemo.cpp" />
+    <ClCompile Include="10. GlobalTestDemo.cpp" />
     <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -50,6 +52,7 @@
     <ClCompile Include="01. TriangleDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Shaders\00. Global.fx" />
     <FxCompile Include="..\Shaders\01. Triangle.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </EntryPointName>
@@ -66,6 +69,7 @@
     <FxCompile Include="..\Shaders\05. Sampler.fx" />
     <FxCompile Include="..\Shaders\06. Terrain.fx" />
     <FxCompile Include="..\Shaders\07. Normal.fx" />
+    <FxCompile Include="..\Shaders\08. GlobalTest.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -121,11 +125,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Binaries\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\Client\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Binaries\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\Client\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
