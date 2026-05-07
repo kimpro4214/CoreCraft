@@ -7,13 +7,15 @@ void Graphics::Init(HWND hwnd)
 
 	CreateDeviceAndSwapChain();
 	CreateRenderTargetView();
+	CreateDepthStencilView();
 	SetViewport();
 }
 
 void Graphics::RenderBegin()
 {
-	_deviceContext->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), nullptr);
+	_deviceContext->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), _depthStencilView.Get());
 	_deviceContext->ClearRenderTargetView(_renderTargetView.Get(), (float*)(&GAME->GetGameDesc().clearColor));
+	_deviceContext->ClearDepthStencilView(_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 	_deviceContext->RSSetViewports(1, &_viewport);
 }
 
@@ -43,13 +45,15 @@ void Graphics::CreateDeviceAndSwapChain()
 		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	}
 
+	D3D_FEATURE_LEVEL featureLevels[] = { D3D_FEATURE_LEVEL_11_0 };
+
 	HRESULT hr = ::D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
 		0,
-		nullptr,
-		0,
+		featureLevels,
+		1,
 		D3D11_SDK_VERSION,
 		&desc,
 		_swapChain.GetAddressOf(),
@@ -71,6 +75,40 @@ void Graphics::CreateRenderTargetView()
 
 	hr = _device->CreateRenderTargetView(backBuffer.Get(), nullptr, _renderTargetView.GetAddressOf());
 	CHECK(hr);
+}
+
+void Graphics::CreateDepthStencilView()
+{
+	{
+		D3D11_TEXTURE2D_DESC desc = { 0 };
+		ZeroMemory(&desc, sizeof(desc));
+		desc.Width = static_cast<uint32>(GAME->GetGameDesc().width);
+		desc.Height = static_cast<uint32>(GAME->GetGameDesc().height);
+		desc.MipLevels = 1;
+		desc.ArraySize = 1;
+		desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		desc.SampleDesc.Count = 1;
+		desc.SampleDesc.Quality = 0;
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		desc.CPUAccessFlags = 0;
+		desc.MiscFlags = 0;
+
+		HRESULT hr = DEVICE->CreateTexture2D(&desc, nullptr, _depthStencilTexture.GetAddressOf());
+		CHECK(hr);
+	}
+	
+	{
+		D3D11_DEPTH_STENCIL_VIEW_DESC desc;
+		ZeroMemory(&desc, sizeof(desc));
+		desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		desc.Texture2D.MipSlice = 0;
+
+		HRESULT hr = DEVICE->CreateDepthStencilView(_depthStencilTexture.Get(), &desc, _depthStencilView.GetAddressOf());
+		CHECK(hr);
+	}
+
 }
 
 void Graphics::SetViewport()
