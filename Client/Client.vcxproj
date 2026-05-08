@@ -28,6 +28,13 @@
     <ClInclude Include="08. NormalDemo.h" />
     <ClInclude Include="09. MeshDemo.h" />
     <ClInclude Include="10. GlobalTestDemo.h" />
+    <ClInclude Include="11. DepthStencilDemo.h" />
+    <ClInclude Include="12. AmbientDemo.h" />
+    <ClInclude Include="13. DiffuseDemo.h" />
+    <ClInclude Include="14. SpecularDemo.h" />
+    <ClInclude Include="15. EmissiveDemo.h" />
+    <ClInclude Include="16. LightingDemo.h" />
+    <ClInclude Include="17. MaterialDemo.h" />
     <ClInclude Include="CameraScript.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="pch.h" />
@@ -43,6 +50,13 @@
     <ClCompile Include="08. NormalDemo.cpp" />
     <ClCompile Include="09. MeshDemo.cpp" />
     <ClCompile Include="10. GlobalTestDemo.cpp" />
+    <ClCompile Include="11. DepthStencilDemo.cpp" />
+    <ClCompile Include="12. AmbientDemo.cpp" />
+    <ClCompile Include="13. DiffuseDemo.cpp" />
+    <ClCompile Include="14. SpecularDemo.cpp" />
+    <ClCompile Include="15. EmissiveDemo.cpp" />
+    <ClCompile Include="16. LightingDemo.cpp" />
+    <ClCompile Include="17. MaterialDemo.cpp" />
     <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -53,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Shaders\00. Global.fx" />
+    <FxCompile Include="..\Shaders\00. Light.fx" />
     <FxCompile Include="..\Shaders\01. Triangle.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </EntryPointName>
@@ -70,6 +85,11 @@
     <FxCompile Include="..\Shaders\06. Terrain.fx" />
     <FxCompile Include="..\Shaders\07. Normal.fx" />
     <FxCompile Include="..\Shaders\08. GlobalTest.fx" />
+    <FxCompile Include="..\Shaders\09. Lighting_Ambient.fx" />
+    <FxCompile Include="..\Shaders\10. Lighting_Diffuse.fx" />
+    <FxCompile Include="..\Shaders\11. Lighting_Specular.fx" />
+    <FxCompile Include="..\Shaders\12. Lighting_Emissive.fx" />
+    <FxCompile Include="..\Shaders\13. Lighting.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

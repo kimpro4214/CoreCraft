@@ -20,6 +20,20 @@ Rule: Strict compliance required
 - No memory allocation (new) or 무거운 string 연산 in Tick/Update loop
 - Minimize State Change in Rendering Pipeline
 
+## 3-1. DX11 렌더링 필수 체크리스트 (Critical)
+MeshRenderer::Update() 또는 렌더링 코드 작성/수정 시 반드시 포함:
+- `DC->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)` — 누락 시 하드웨어마다 다르게 동작(point/line 렌더링)
+- `DC->IASetVertexBuffers(...)` — stride/offset 포함
+- `DC->IASetIndexBuffer(...)` — DXGI_FORMAT_R32_UINT
+- 셰이더 VS에서 `worldPosition`은 반드시 W 변환 후, VP 변환 전에 저장
+  ```hlsl
+  output.position = mul(input.position, W);
+  output.worldPosition = output.position.xyz; // 반드시 여기서 저장
+  output.position = mul(output.position, VP);
+  ```
+- `CameraPosition()`은 `-V._41_42_43` 아닌 `mul(float3(-V._41,-V._42,-V._43), (float3x3)V)` 사용
+- `D3D11CreateDeviceAndSwapChain` 호출 시 Feature Level 명시: `D3D_FEATURE_LEVEL_11_0`
+
 ## 4. Workflow
 - 대규모 refactoring 전 설계 방향 ask & get approval
 - Add Custom Log/macro for instant debugging

@@ -56,6 +56,14 @@ struct VertexOutput
 	float3 normal : NORMAL;
 };
 
+struct MeshOutput
+{
+	float4 position : SV_POSITION;
+	float3 worldPosition : POSITION1;
+	float2 uv : TEXCOORD;
+	float3 normal : NORMAL;
+};
+
 //////////////////
 // SamplerState //
 //////////////////
@@ -97,6 +105,11 @@ pass name											\
 //////////////
 // Function //
 //////////////
+
+float3 CameraPosition()
+{
+	return mul(float3(-V._41, -V._42, -V._43), (float3x3)V);
+}
 
 #endif
 
