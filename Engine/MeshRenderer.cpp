@@ -71,7 +71,6 @@ void MeshRenderer::Update()
 	uint32 stride = _mesh->GetVertexBuffer()->GetStride();
 	uint32 offset = _mesh->GetVertexBuffer()->GetOffset();
 
-	DC->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	DC->IASetVertexBuffers(0, 1, _mesh->GetVertexBuffer()->GetComPtr().GetAddressOf(), &stride, &offset);
 	DC->IASetIndexBuffer(_mesh->GetIndexBuffer()->GetComPtr().Get(), DXGI_FORMAT_R32_UINT, 0);
 
