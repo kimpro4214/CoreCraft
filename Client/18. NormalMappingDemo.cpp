@@ -7,12 +7,9 @@
 #include "MeshRenderer.h"
 #include "Mesh.h"
 #include "Material.h"
-#include "Frustum.h"
 
 void NormalMappingDemo::Init()
 {
-	_frustum = make_shared<Frustum>();
-
 	RESOURCES->Init();
 	_shader = make_shared<Shader>(L"14. NormalMapping.fx");
 
@@ -24,7 +21,6 @@ void NormalMappingDemo::Init()
 		}
 		{
 			auto texture = RESOURCES->Load<Texture>(L"Leather", L"..\\Resources\\Textures\\Leather.jpg");
-			//auto texture = RESOURCES->Load<Texture>(L"Leather", L"..\\Resources\\Textures\\Blue.png");
 			material->SetDiffuseMap(texture);
 		}
 		{
@@ -78,7 +74,6 @@ void NormalMappingDemo::Init()
 void NormalMappingDemo::Update()
 {
 	_camera->Update();
-	_frustum->FinalUpdate();
 	RENDER->Update();
 
 	{
@@ -90,8 +85,13 @@ void NormalMappingDemo::Update()
 		RENDER->PushLightData(lightDesc);
 	}
 
-	_obj->Update();
-	_obj2->Update();
+	{
+		_obj->Update();
+	}
+
+	{
+		_obj2->Update();
+	}	
 }
 
 void NormalMappingDemo::Render()

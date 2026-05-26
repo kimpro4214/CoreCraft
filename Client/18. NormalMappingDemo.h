@@ -2,8 +2,6 @@
 #include "IExecute.h"
 #include "Geometry.h"
 
-class Frustum;
-
 class NormalMappingDemo : public IExecute
 {
 public:
@@ -16,6 +14,4 @@ public:
 	shared_ptr<GameObject> _obj;
 	shared_ptr<GameObject> _obj2;
 	shared_ptr<GameObject> _camera;
-
-	shared_ptr<Frustum> _frustum;
 };
