@@ -27,6 +27,7 @@ void MaterialDemo::Init()
 		MaterialDesc& desc = material->GetMaterialDesc();
 		desc.ambient = Vec4(1.f);
 		desc.diffuse = Vec4(1.f);
+		desc.specular = Vec4(1.f);
 
 		RESOURCES->Add(L"Veigar", material);
 	}

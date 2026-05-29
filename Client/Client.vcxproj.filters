@@ -90,6 +90,9 @@
     <ClCompile Include="17. MaterialDemo.cpp">
       <Filter>Game\Week2</Filter>
     </ClCompile>
+    <ClCompile Include="18. NormalMappingDemo.cpp">
+      <Filter>Game\Week2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -152,6 +155,9 @@
     <ClInclude Include="17. MaterialDemo.h">
       <Filter>Game\Week2</Filter>
     </ClInclude>
+    <ClInclude Include="18. NormalMappingDemo.h">
+      <Filter>Game\Week2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Shaders\01. Triangle.fx">
@@ -198,6 +204,9 @@
     </FxCompile>
     <FxCompile Include="..\Shaders\00. Light.fx">
       <Filter>Shaders\Common</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Shaders\14. NormalMapping.fx">
+      <Filter>Shaders\Week2</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

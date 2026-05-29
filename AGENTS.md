@@ -1,4 +1,4 @@
-# CLAUDE.md — Core Craft Engine
+# AGENTS.md — Core Craft Engine
 
 > Behavioral guidelines + project-specific rules.
 > 일반 행동 원칙(영문) 아래에 Core Craft 엔진 전용 규칙을 둔다.
@@ -141,7 +141,7 @@ MeshRenderer::Update() 또는 렌더링 코드 작성/수정 시 반드시 포�
 - 여러 클래스 추가 시 기능 단위로 분리 커밋 (예: 아키텍처 / 리소스 / 렌더 상태 / 파이프라인)
 - Prefix: fix, feat, chore, refactor, docs
 - Commit message in Korean (간결하게)
-- No "Co-authored-by" tag (Claude 자동 서명 절대 추가 금지)
+- 커밋에 에이전트 자동 서명/Co-authored-by 태그 절대 추가 금지
 
 ## 3. Git Branch & PR (Critical)
 - Work on `dev` branch
