@@ -45,13 +45,14 @@ void Graphics::CreateDeviceAndSwapChain()
 		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	}
 
+	D3D_FEATURE_LEVEL featureLevels[] = { D3D_FEATURE_LEVEL_11_0 };
 	HRESULT hr = ::D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
 		0,
-		nullptr,
-		0,
+		featureLevels,
+		1,
 		D3D11_SDK_VERSION,
 		&desc,
 		_swapChain.GetAddressOf(),
