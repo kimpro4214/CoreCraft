@@ -10,7 +10,7 @@ MeshOutput VS(VertexTextureNormal input)
 {
 	MeshOutput output;
 	output.position = mul(input.position, W);
-	output.worldPosition = input.position;
+	output.worldPosition = output.position.xyz;
 	output.position = mul(output.position, VP);	
 	output.uv = input.uv;
 	output.normal = mul(input.normal, (float3x3)W);
@@ -18,15 +18,15 @@ MeshOutput VS(VertexTextureNormal input)
 	return output;
 }
 
-// Specular (¹Ý»ç±¤)
-// ÇÑ¹æÇâÀ¸·Î ¿ÏÀüÈ÷ ¹Ý»çµÇ´Â ºû (Phong)
+// Specular (ï¿½Ý»ç±¤)
+// ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý»ï¿½Ç´ï¿½ ï¿½ï¿½ (Phong)
 float4 PS(MeshOutput input) : SV_TARGET
 {
 	//float3 R = reflect(LightDir, input.normal);
 	float3 R = LightDir - (2 * input.normal * dot(LightDir, input.normal));
 	R = normalize(R);
 
-	float3 cameraPosition = -V._41_42_43;
+	float3 cameraPosition = CameraPosition();
 	float3 E = normalize(cameraPosition - input.worldPosition);
 
 	float value = saturate(dot(R, E)); // clamp(0~1)

@@ -117,7 +117,7 @@ pass name											\
 
 float3 CameraPosition()
 {
-	return -V._41_42_43;
+	return mul(float3(-V._41, -V._42, -V._43), (float3x3)V);
 }
 
 #endif
