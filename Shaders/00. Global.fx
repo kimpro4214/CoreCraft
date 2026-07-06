@@ -54,6 +54,16 @@ struct VertexTextureNormalTangent
 	float3 tangent : TANGENT;
 };
 
+struct VertexTextureNormalTangentBlend
+{
+	float4 position : POSITION;
+	float2 uv : TEXCOORD;
+	float3 normal : NORMAL;
+	float3 tangent : TANGENT;
+	float4 blendIndices : BLEND_INDICES;
+	float4 blendWeights : BLEND_WEIGHTS;
+};
+
 //////////////////
 // VertexOutput //
 //////////////////
@@ -101,6 +111,11 @@ RasterizerState FillModeWireFrame
 	FillMode = WireFrame;
 };
 
+RasterizerState FrontCounterClockwiseTrue
+{
+	FrontCounterClockwise = true;
+};
+
 ///////////
 // Macro //
 ///////////
@@ -126,7 +141,7 @@ pass name											\
 
 float3 CameraPosition()
 {
-	return mul(float3(-V._41, -V._42, -V._43), (float3x3)V);
+	return VInv._41_42_43;
 }
 
 #endif
