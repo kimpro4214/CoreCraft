@@ -19,14 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="02. QuadDemo.h" />
-    <ClInclude Include="03. ConstBufferDemo.h" />
-    <ClInclude Include="04. CameraDemo.h" />
-    <ClInclude Include="05. TextureDemo.h" />
-    <ClInclude Include="06. SamplerDemo.h" />
-    <ClInclude Include="07. HeightMapDemo.h" />
-    <ClInclude Include="08. NormalDemo.h" />
-    <ClInclude Include="09. MeshDemo.h" />
     <ClInclude Include="10. GlobalTestDemo.h" />
     <ClInclude Include="11. DepthStencilDemo.h" />
     <ClInclude Include="12. AmbientDemo.h" />
@@ -39,17 +31,8 @@
     <ClInclude Include="CameraScript.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="01. TriangleDemo.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="02. QuadDemo.cpp" />
-    <ClCompile Include="03. ConstBufferDemo.cpp" />
-    <ClCompile Include="04. CameraDemo.cpp" />
-    <ClCompile Include="05. TextureDemo.cpp" />
-    <ClCompile Include="06. SamplerDemo.cpp" />
-    <ClCompile Include="07. HeightMapDemo.cpp" />
-    <ClCompile Include="08. NormalDemo.cpp" />
-    <ClCompile Include="09. MeshDemo.cpp" />
     <ClCompile Include="10. GlobalTestDemo.cpp" />
     <ClCompile Include="11. DepthStencilDemo.cpp" />
     <ClCompile Include="12. AmbientDemo.cpp" />
@@ -65,7 +48,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="01. TriangleDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Shaders\00. Global.fx" />
@@ -93,6 +75,10 @@
     <FxCompile Include="..\Shaders\12. Lighting_Emissive.fx" />
     <FxCompile Include="..\Shaders\13. Lighting.fx" />
     <FxCompile Include="..\Shaders\14. NormalMapping.fx" />
+    <FxCompile Include="..\Shaders\15. ModelDemo.fx" />
+    <FxCompile Include="..\Shaders\16. AnimationDemo.fx" />
+    <FxCompile Include="..\Shaders\17. TweenDemo.fx" />
+    <FxCompile Include="..\Shaders\18. SkyDemo.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

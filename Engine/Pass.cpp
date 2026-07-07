@@ -43,7 +43,6 @@ void Pass::BeginDraw()
 
 	DC->IASetInputLayout(inputLayout.Get());
 	pass->Apply(0, DC.Get());
-	DC->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void Pass::EndDraw()

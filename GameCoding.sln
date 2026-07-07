@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{2C2D9AA8-61C9-4AB4-B14A-DBDF76A868CC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssimpTool", "AssimpTool\AssimpTool.vcxproj", "{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{09CC16C7-9F36-4EEE-87B4-AC0DBA07807B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,9 +35,20 @@ Global
 		{2C2D9AA8-61C9-4AB4-B14A-DBDF76A868CC}.Release|x64.Build.0 = Release|x64
 		{2C2D9AA8-61C9-4AB4-B14A-DBDF76A868CC}.Release|x86.ActiveCfg = Release|Win32
 		{2C2D9AA8-61C9-4AB4-B14A-DBDF76A868CC}.Release|x86.Build.0 = Release|Win32
+		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Debug|x64.ActiveCfg = Debug|x64
+		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Debug|x64.Build.0 = Debug|x64
+		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Debug|x86.ActiveCfg = Debug|Win32
+		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Debug|x86.Build.0 = Debug|Win32
+		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Release|x64.ActiveCfg = Release|x64
+		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Release|x64.Build.0 = Release|x64
+		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Release|x86.ActiveCfg = Release|Win32
+		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786} = {09CC16C7-9F36-4EEE-87B4-AC0DBA07807B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A12A6A71-F451-4DB4-9628-92FF887AE4DF}

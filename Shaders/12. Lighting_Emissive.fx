@@ -6,7 +6,7 @@ MeshOutput VS(VertexTextureNormal input)
 {
 	MeshOutput output;
 	output.position = mul(input.position, W);
-	output.worldPosition = output.position.xyz;
+	output.worldPosition = input.position;
 	output.position = mul(output.position, VP);	
 	output.uv = input.uv;
 	output.normal = mul(input.normal, (float3x3)W);
@@ -15,11 +15,11 @@ MeshOutput VS(VertexTextureNormal input)
 }
 
 // Emissive
-// ï¿½Ü°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
-// (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®)
+// ¿Ü°¢¼± ±¸ÇÒ ¶§ »ç¿ë
+// (¸²¶óÀÌÆ®)
 float4 PS(MeshOutput input) : SV_TARGET
 {
-	float3 cameraPosition = CameraPosition();
+	float3 cameraPosition = -V._41_42_43;
 	float3 E = normalize(cameraPosition - input.worldPosition);
 
 	float value = saturate(dot(E, input.normal));
