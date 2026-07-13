@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Component.h"
 
 class Mesh;
@@ -12,10 +12,12 @@ public:
 	MeshRenderer();
 	virtual ~MeshRenderer();
 
-	virtual void Update() override;
+	virtual void Render() override;
 
 	void SetMesh(shared_ptr<Mesh> mesh) { _mesh = mesh; }
 	void SetMaterial(shared_ptr<Material> material) { _material = material; }
+	shared_ptr<Mesh> GetMesh() const { return _mesh; }
+	shared_ptr<Material> GetMaterial() const { return _material; }
 
 	// Legacy
 	void SetTexture(shared_ptr<Texture> texture) { }

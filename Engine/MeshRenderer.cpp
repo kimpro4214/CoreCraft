@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "MeshRenderer.h"
 #include "Camera.h"
 #include "Game.h"
@@ -54,7 +54,7 @@ MeshRenderer::~MeshRenderer()
 //	_shader->DrawIndexed(0, 0, _mesh->GetIndexBuffer()->GetCount(), 0, 0);
 //}
 
-void MeshRenderer::Update()
+void MeshRenderer::Render()
 {
 	if (_mesh == nullptr || _material == nullptr)
 		return;

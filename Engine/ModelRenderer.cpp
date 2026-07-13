@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "ModelRenderer.h"
 #include "Material.h"
 #include "ModelMesh.h"
@@ -39,7 +39,7 @@ ModelRenderer::~ModelRenderer()
 //	}
 //}
 
-void ModelRenderer::Update()
+void ModelRenderer::Render()
 {
 	if (_model == nullptr)
 		return;

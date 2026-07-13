@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 struct GameDesc
 {
@@ -10,6 +10,7 @@ struct GameDesc
 	float height = 600;
 	bool vsync = false;
 	bool windowed = true;
+	bool enableImGui = true;
 	Color clearColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
 };
 
@@ -26,6 +27,7 @@ private:
 	BOOL InitInstance(int cmdShow);
 
 	void Update();
+	void Resize(uint32 width, uint32 height);
 
 	static LRESULT CALLBACK WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam);
 	

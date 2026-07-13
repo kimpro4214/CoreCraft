@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 class Graphics
 {
@@ -9,15 +9,20 @@ public:
 
 	void RenderBegin();
 	void RenderEnd();
+	void Resize(uint32 width, uint32 height);
+	void BindBackBuffer();
 
 	ComPtr<ID3D11Device> GetDevice() { return _device; }
 	ComPtr<ID3D11DeviceContext> GetDeviceContext() { return _deviceContext; }
+	ID3D11RenderTargetView* GetBackBufferRTV() const { return _renderTargetView.Get(); }
+	ID3D11DepthStencilView* GetBackBufferDSV() const { return _depthStencilView.Get(); }
+	const D3D11_VIEWPORT& GetViewport() const { return _viewport; }
 
 private:
 	void CreateDeviceAndSwapChain();
 	void CreateRenderTargetView();
 	void CreateDepthStencilView();
-	void SetViewport();
+	void SetViewport(uint32 width, uint32 height);
 
 private:
 	HWND _hwnd = {};

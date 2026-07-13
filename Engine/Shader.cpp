@@ -130,7 +130,10 @@ ComPtr<ID3D11InputLayout> Shader::CreateInputLayout(ComPtr<ID3DBlob> fxBlob, D3D
 		}
 
 		string name = paramDesc.SemanticName;
-		std::transform(name.begin(), name.end(), name.begin(), toupper);
+		std::transform(name.begin(), name.end(), name.begin(), [](unsigned char value)
+		{
+			return static_cast<char>(std::toupper(value));
+		});
 
 		if (name == "POSITION")
 		{

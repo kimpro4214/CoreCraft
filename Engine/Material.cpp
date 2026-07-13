@@ -25,16 +25,11 @@ void Material::Update()
 	if (_shader == nullptr)
 		return;
 
+	_desc.useDiffuseMap = _diffuseMap ? 1u : 0u;
 	RENDER->PushMaterialData(_desc);
-
-	if (_diffuseMap)
-		_diffuseEffectBuffer->SetResource(_diffuseMap->GetComPtr().Get());
-
-	if (_normalMap)
-		_normalEffectBuffer->SetResource(_normalMap->GetComPtr().Get());
-
-	if (_specularMap)
-		_specularEffectBuffer->SetResource(_specularMap->GetComPtr().Get());
+	_diffuseEffectBuffer->SetResource(_diffuseMap ? _diffuseMap->GetComPtr().Get() : nullptr);
+	_normalEffectBuffer->SetResource(_normalMap ? _normalMap->GetComPtr().Get() : nullptr);
+	_specularEffectBuffer->SetResource(_specularMap ? _specularMap->GetComPtr().Get() : nullptr);
 }
 
 std::shared_ptr<Material> Material::Clone()
