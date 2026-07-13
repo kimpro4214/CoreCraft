@@ -70,6 +70,10 @@ x86/
 Binaries/
 [Bb]in/
 [Oo]bj/
+Intermediate/
+Builds/
+.tmp/
+.vs/
 
 # Claude Code 로컬 설정
 .claude/
