@@ -2772,7 +2772,7 @@ namespace IMGUIZMO_NAMESPACE
          frustum[i].Normalize();
       }
    }
-   
+
    void DrawAxes(const float* view, const float* projection, const float* matrices, int matrixCount)
    {
       matrix_t viewM = *(matrix_t*)view;
