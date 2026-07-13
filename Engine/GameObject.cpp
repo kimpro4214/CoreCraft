@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "GameObject.h"
 #include "MonoBehaviour.h"
 #include "Transform.h"
@@ -6,10 +6,19 @@
 #include "MeshRenderer.h"
 #include "ModelRenderer.h"
 #include "ModelAnimator.h"
+#include "Blueprint.h"
+#include "Light.h"
+#include "AnimatedModelRenderer.h"
+#include "PlayerController.h"
+
+namespace
+{
+	atomic<ObjectId> GNextObjectId = 1;
+}
 
 GameObject::GameObject()
 {
-	
+	_id = GNextObjectId.fetch_add(1);
 }
 
 GameObject::~GameObject()
@@ -19,6 +28,9 @@ GameObject::~GameObject()
 
 void GameObject::Awake()
 {
+	if (!_active)
+		return;
+
 	for (shared_ptr<Component>& component : _components)
 	{
 		if (component)
@@ -33,6 +45,9 @@ void GameObject::Awake()
 
 void GameObject::Start()
 {
+	if (!_active)
+		return;
+
 	for (shared_ptr<Component>& component : _components)
 	{
 		if (component)
@@ -47,6 +62,9 @@ void GameObject::Start()
 
 void GameObject::Update()
 {
+	if (!_active)
+		return;
+
 	for (shared_ptr<Component>& component : _components)
 	{
 		if (component)
@@ -57,10 +75,17 @@ void GameObject::Update()
 	{
 		script->Update();
 	}
+
+	// Scene 이전의 독립 실행 데모는 Update에서 바로 그리던 흐름을 유지한다.
+	if (_renderDuringUpdate)
+		Render();
 }
 
 void GameObject::LateUpdate()
 {
+	if (!_active)
+		return;
+
 	for (shared_ptr<Component>& component : _components)
 	{
 		if (component)
@@ -75,6 +100,9 @@ void GameObject::LateUpdate()
 
 void GameObject::FixedUpdate()
 {
+	if (!_active)
+		return;
+
 	for (shared_ptr<Component>& component : _components)
 	{
 		if (component)
@@ -137,6 +165,9 @@ std::shared_ptr<Transform> GameObject::GetOrAddTransform()
 
 void GameObject::AddComponent(shared_ptr<Component> component)
 {
+	if (component == nullptr)
+		return;
+
 	component->SetGameObject(shared_from_this());
 
 	uint8 index = static_cast<uint8>(component->GetType());
@@ -147,5 +178,58 @@ void GameObject::AddComponent(shared_ptr<Component> component)
 	else
 	{
 		_scripts.push_back(dynamic_pointer_cast<MonoBehaviour>(component));
+	}
+}
+
+std::shared_ptr<BlueprintComponent> GameObject::GetBlueprint()
+{
+	shared_ptr<Component> component = GetFixedComponent(ComponentType::Blueprint);
+	return static_pointer_cast<BlueprintComponent>(component);
+}
+
+std::shared_ptr<Light> GameObject::GetLight()
+{
+	shared_ptr<Component> component = GetFixedComponent(ComponentType::Light);
+	return static_pointer_cast<Light>(component);
+}
+
+std::shared_ptr<AnimatedModelRenderer> GameObject::GetAnimatedModelRenderer()
+{
+	shared_ptr<Component> component = GetFixedComponent(ComponentType::AnimatedRenderer);
+	return static_pointer_cast<AnimatedModelRenderer>(component);
+}
+
+std::shared_ptr<PlayerController> GameObject::GetPlayerController()
+{
+	for (const shared_ptr<MonoBehaviour>& script : _scripts)
+	{
+		shared_ptr<PlayerController> player = dynamic_pointer_cast<PlayerController>(script);
+		if (player)
+			return player;
+	}
+	return nullptr;
+}
+
+void GameObject::Render()
+{
+	if (!_active)
+		return;
+
+	for (shared_ptr<Component>& component : _components)
+	{
+		if (component)
+			component->Render();
+	}
+
+	for (shared_ptr<MonoBehaviour>& script : _scripts)
+		script->Render();
+}
+
+void GameObject::SetId(ObjectId id)
+{
+	_id = id;
+	ObjectId expected = GNextObjectId.load();
+	while (expected <= id && !GNextObjectId.compare_exchange_weak(expected, id + 1))
+	{
 	}
 }

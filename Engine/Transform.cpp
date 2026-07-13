@@ -1,5 +1,6 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Transform.h"
+#include "GameObject.h"
 
 Transform::Transform() : Super(ComponentType::Transform)
 {
@@ -53,7 +54,7 @@ void Transform::UpdateTransform()
 
 	if (HasParent())
 	{
-		_matWorld = _matLocal * _parent->GetWorldMatrix();
+		_matWorld = _matLocal * GetParent()->GetWorldMatrix();
 	}
 	else
 	{
@@ -69,11 +70,41 @@ void Transform::UpdateTransform()
 		child->UpdateTransform();
 }
 
+bool Transform::SetParent(shared_ptr<Transform> parent)
+{
+	if (parent.get() == this)
+		return false;
+
+	for (shared_ptr<Transform> ancestor = parent; ancestor; ancestor = ancestor->GetParent())
+	{
+		if (ancestor.get() == this)
+			return false;
+	}
+
+	shared_ptr<Transform> self = GetGameObject()->GetTransform();
+	if (shared_ptr<Transform> oldParent = GetParent())
+	{
+		auto& siblings = oldParent->_children;
+		siblings.erase(remove(siblings.begin(), siblings.end(), self), siblings.end());
+	}
+
+	_parent = parent;
+	if (parent)
+	{
+		auto found = find(parent->_children.begin(), parent->_children.end(), self);
+		if (found == parent->_children.end())
+			parent->_children.push_back(self);
+	}
+
+	UpdateTransform();
+	return true;
+}
+
 void Transform::SetScale(const Vec3& worldScale)
 {
 	if (HasParent())
 	{
-		Vec3 parentScale = _parent->GetScale();
+		Vec3 parentScale = GetParent()->GetScale();
 		Vec3 scale = worldScale;
 		scale.x /= parentScale.x;
 		scale.y /= parentScale.y;
@@ -90,7 +121,7 @@ void Transform::SetRotation(const Vec3& worldRotation)
 {
 	if (HasParent())
 	{
-		Matrix inverseMatrix = _parent->GetWorldMatrix().Invert();
+		Matrix inverseMatrix = GetParent()->GetWorldMatrix().Invert();
 
 		Vec3 rotation;
 		rotation.TransformNormal(worldRotation, inverseMatrix);
@@ -105,7 +136,7 @@ void Transform::SetPosition(const Vec3& worldPosition)
 {
 	if (HasParent())
 	{
-		Matrix worldToParentLocalMatrix = _parent->GetWorldMatrix().Invert();
+		Matrix worldToParentLocalMatrix = GetParent()->GetWorldMatrix().Invert();
 
 		Vec3 position;
 		position.Transform(worldPosition, worldToParentLocalMatrix);

@@ -51,6 +51,8 @@ ResourceManager::Load(const wstring& key, const wstring& path)
 
 	shared_ptr<T> object = make_shared<T>();
 	object->Load(path);
+	object->SetName(key);
+	object->SetPath(path);
 	keyObjMap[key] = object;
 
 	return object;
@@ -67,6 +69,7 @@ bool ResourceManager::Add(const wstring& key, shared_ptr<T> object)
 		return false;
 
 	keyObjMap[key] = object;
+	object->SetName(key);
 	return true;
 }
 
