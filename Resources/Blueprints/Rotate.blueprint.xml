@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<Blueprint version="1">
+    <Node id="1" type="Tick" x="0" y="0" vx="0" vy="0" vz="0" text="" input="0" output="2"/>
+    <Node id="3" type="AddRotation" x="260" y="0" vx="0" vy="1" vz="0" text="" input="4" output="5"/>
+    <Link id="6" start="2" end="4"/>
+</Blueprint>

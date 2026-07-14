@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Camera.h"
 
 Matrix Camera::S_MatView = Matrix::Identity;
@@ -25,9 +25,11 @@ void Camera::UpdateMatrix()
 	Vec3 eyePosition = GetTransform()->GetPosition();
 	Vec3 focusPosition = eyePosition + GetTransform()->GetLook();
 	Vec3 upDirection = GetTransform()->GetUp();
-	S_MatView = ::XMMatrixLookAtLH(eyePosition, focusPosition, upDirection);
+	_matView = ::XMMatrixLookAtLH(eyePosition, focusPosition, upDirection);
 
 	//S_MatView = GetTransform()->GetWorldMatrix().Invert();
 
-	S_MatProjection = ::XMMatrixPerspectiveFovLH(_fov, _width / _height, _near, _far);
+	_matProjection = ::XMMatrixPerspectiveFovLH(_fov, _width / _height, _near, _far);
+	S_MatView = _matView;
+	S_MatProjection = _matProjection;
 }

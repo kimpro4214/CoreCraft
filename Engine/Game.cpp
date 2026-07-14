@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Game.h"
 #include "IExecute.h"
 
@@ -6,20 +6,22 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 WPARAM Game::Run(GameDesc& desc)
 {
+	SetProcessDPIAware();
 	_desc = desc;
 	assert(_desc.app != nullptr);
 
-	// 1) À©µµ¿ì Ã¢ Á¤º¸ µî·Ï
+	// 1) ìœˆë„ìš° ì°½ ì •ë³´ ë“±ë¡
 	MyRegisterClass();
 
-	// 2) À©µµ¿ì Ã¢ »ý¼º
+	// 2) ìœˆë„ìš° ì°½ ìƒì„±
 	if (!InitInstance(SW_SHOWNORMAL))
 		return FALSE;
 		
 	GRAPHICS->Init(_desc.hWnd);
 	TIME->Init();
 	INPUT->Init(_desc.hWnd);
-	GUI->Init();
+	if (_desc.enableImGui)
+		GUI->Init();
 	
 	_desc.app->Init();
 
@@ -37,6 +39,10 @@ WPARAM Game::Run(GameDesc& desc)
 			Update();
 		}
 	}
+
+	_desc.app->Shutdown();
+	if (_desc.enableImGui)
+		GUI->Shutdown();
 
 	return msg.wParam;
 }
@@ -65,7 +71,7 @@ ATOM Game::MyRegisterClass()
 
 BOOL Game::InitInstance(int cmdShow)
 {
-	RECT windowRect = { 0, 0, _desc.width, _desc.height };
+	RECT windowRect = { 0, 0, static_cast<LONG>(_desc.width), static_cast<LONG>(_desc.height) };
 	::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
 
 	_desc.hWnd = CreateWindowW(_desc.appName.c_str(), _desc.appName.c_str(), WS_OVERLAPPEDWINDOW,
@@ -82,12 +88,14 @@ BOOL Game::InitInstance(int cmdShow)
 
 LRESULT CALLBACK Game::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (ImGui_ImplWin32_WndProcHandler(handle, message, wParam, lParam))
+	if (GAME->GetGameDesc().enableImGui && ImGui_ImplWin32_WndProcHandler(handle, message, wParam, lParam))
 		return true;
 
 	switch (message)
 	{
 	case WM_SIZE:
+		if (wParam != SIZE_MINIMIZED)
+			GAME->Resize(LOWORD(lParam), HIWORD(lParam));
 		break;
 	case WM_CLOSE:
 	case WM_DESTROY:
@@ -96,6 +104,8 @@ LRESULT CALLBACK Game::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM 
 	default:
 		return ::DefWindowProc(handle, message, wParam, lParam);
 	}
+
+	return 0;
 }
 
 void Game::Update()
@@ -105,11 +115,26 @@ void Game::Update()
 
 	GRAPHICS->RenderBegin();
 
-	GUI->Update();
+	if (_desc.enableImGui)
+		GUI->Update();
 	_desc.app->Update();
 	_desc.app->Render();
-	GUI->Render();
+	if (_desc.enableImGui)
+	{
+		_desc.app->RenderUI();
+		GUI->Render();
+	}
 
 	GRAPHICS->RenderEnd();
+}
+
+void Game::Resize(uint32 width, uint32 height)
+{
+	if (_desc.hWnd == nullptr || width == 0 || height == 0)
+		return;
+
+	_desc.width = static_cast<float>(width);
+	_desc.height = static_cast<float>(height);
+	GRAPHICS->Resize(width, height);
 }
 

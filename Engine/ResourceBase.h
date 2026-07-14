@@ -2,7 +2,7 @@
 
 enum class ResourceType : uint8
 {
-	None = -1,
+	None,
 	Mesh,
 	Shader,
 	Texture,
@@ -27,6 +27,8 @@ public:
 
 	void SetName(const wstring& name) { _name = name; }
 	const wstring& GetName() { return _name; }
+	void SetPath(const wstring& path) { _path = path; }
+	const wstring& GetPath() const { return _path; }
 	uint32 GetID() { return _id; }
 
 protected:

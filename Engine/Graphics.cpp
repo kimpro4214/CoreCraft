@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Graphics.h"
 
 void Graphics::Init(HWND hwnd)
@@ -8,21 +8,43 @@ void Graphics::Init(HWND hwnd)
 	CreateDeviceAndSwapChain();
 	CreateRenderTargetView();
 	CreateDepthStencilView();
-	SetViewport();
+	SetViewport(static_cast<uint32>(GAME->GetGameDesc().width), static_cast<uint32>(GAME->GetGameDesc().height));
 }
 
 void Graphics::RenderBegin()
 {
-	_deviceContext->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), _depthStencilView.Get());
+	BindBackBuffer();
 	_deviceContext->ClearRenderTargetView(_renderTargetView.Get(), (float*)(&GAME->GetGameDesc().clearColor));
 	_deviceContext->ClearDepthStencilView(_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+}
+
+void Graphics::BindBackBuffer()
+{
+	_deviceContext->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), _depthStencilView.Get());
 	_deviceContext->RSSetViewports(1, &_viewport);
 }
 
 void Graphics::RenderEnd()
 {
-	HRESULT hr = _swapChain->Present(1, 0);
+	HRESULT hr = _swapChain->Present(GAME->GetGameDesc().vsync ? 1 : 0, 0);
 	CHECK(hr);
+}
+
+void Graphics::Resize(uint32 width, uint32 height)
+{
+	if (_swapChain == nullptr || width == 0 || height == 0)
+		return;
+
+	_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+	_renderTargetView.Reset();
+	_depthStencilView.Reset();
+	_depthStencilTexture.Reset();
+
+	HRESULT hr = _swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
+	CHECK(hr);
+	CreateRenderTargetView();
+	CreateDepthStencilView();
+	SetViewport(width, height);
 }
 void Graphics::CreateDeviceAndSwapChain()
 {
@@ -45,13 +67,14 @@ void Graphics::CreateDeviceAndSwapChain()
 		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	}
 
+	D3D_FEATURE_LEVEL featureLevels[] = { D3D_FEATURE_LEVEL_11_0 };
 	HRESULT hr = ::D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
 		0,
-		nullptr,
-		0,
+		featureLevels,
+		_countof(featureLevels),
 		D3D11_SDK_VERSION,
 		&desc,
 		_swapChain.GetAddressOf(),
@@ -109,12 +132,12 @@ void Graphics::CreateDepthStencilView()
 
 }
 
-void Graphics::SetViewport()
+void Graphics::SetViewport(uint32 width, uint32 height)
 {
 	_viewport.TopLeftX = 0.0f;
 	_viewport.TopLeftY = 0.0f;
-	_viewport.Width = static_cast<float>(GAME->GetGameDesc().width);
-	_viewport.Height = static_cast<float>(GAME->GetGameDesc().height);
+	_viewport.Width = static_cast<float>(width);
+	_viewport.Height = static_cast<float>(height);
 	_viewport.MinDepth = 0.0f;
 	_viewport.MaxDepth = 1.0f;
 }

@@ -26,6 +26,19 @@ struct LightDesc
 
 	Vec3 direction;
 	float padding0;
+
+	struct Point
+	{
+		Color color = Color(1.f, 1.f, 1.f, 1.f);
+		Vec3 position = Vec3::Zero;
+		float range = 10.f;
+		float intensity = 1.f;
+		Vec3 padding = Vec3::Zero;
+	};
+
+	array<Point, 8> points = {};
+	uint32 pointCount = 0;
+	Vec3 padding1 = Vec3::Zero;
 };
 
 struct MaterialDesc
@@ -34,6 +47,8 @@ struct MaterialDesc
 	Color diffuse = Color(1.f, 1.f, 1.f, 1.f);
 	Color specular = Color(0.f, 0.f, 0.f, 1.f);
 	Color emissive = Color(0.f, 0.f, 0.f, 1.f);
+	uint32 useDiffuseMap = 0;
+	Vec3 padding = Vec3::Zero;
 };
 
 // Bone
@@ -89,6 +104,7 @@ class RenderManager
 
 public:
 	void Init(shared_ptr<Shader> shader);
+	void RegisterShader(const shared_ptr<Shader>& shader);
 	void Update();
 
 	void PushGlobalData(const Matrix& view, const Matrix& projection);
@@ -100,35 +116,39 @@ public:
 	void PushTweenData(const TweenDesc& desc);
 
 private:
-	shared_ptr<Shader> _shader;
+	struct ShaderBindings
+	{
+		shared_ptr<Shader> shader;
+		ComPtr<ID3DX11EffectConstantBuffer> global;
+		ComPtr<ID3DX11EffectConstantBuffer> transform;
+		ComPtr<ID3DX11EffectConstantBuffer> light;
+		ComPtr<ID3DX11EffectConstantBuffer> material;
+		ComPtr<ID3DX11EffectConstantBuffer> bone;
+		ComPtr<ID3DX11EffectConstantBuffer> keyframe;
+		ComPtr<ID3DX11EffectConstantBuffer> tween;
+	};
+	vector<ShaderBindings> _bindings;
 
 	GlobalDesc _globalDesc;
 	shared_ptr<ConstantBuffer<GlobalDesc>> _globalBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> _globalEffectBuffer;
 
 	TransformDesc _transformDesc;
 	shared_ptr<ConstantBuffer<TransformDesc>> _transformBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> _transformEffectBuffer;
 
 	LightDesc _lightDesc;
 	shared_ptr<ConstantBuffer<LightDesc>> _lightBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> _lightEffectBuffer;
 
 	MaterialDesc _materialDesc;
 	shared_ptr<ConstantBuffer<MaterialDesc>> _materialBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> _materialEffectBuffer;
 
 	BoneDesc _boneDesc;
 	shared_ptr<ConstantBuffer<BoneDesc>> _boneBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> _boneEffectBuffer;
 
 	KeyframeDesc _keyframeDesc;
 	shared_ptr<ConstantBuffer<KeyframeDesc>> _keyframeBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> _keyframeEffectBuffer;
 
 	TweenDesc _tweenDesc;
 	shared_ptr<ConstantBuffer<TweenDesc>> _tweenBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> _tweenEffectBuffer;
 
 };
 

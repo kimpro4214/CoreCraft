@@ -70,6 +70,16 @@ x86/
 Binaries/
 [Bb]in/
 [Oo]bj/
+Intermediate/
+Builds/
+.tmp/
+.vs/
+
+# 벤더링한 UI 라이브러리에서 빌드에 사용하지 않는 원본 파일
+ThirdParty/imgui-docking/*
+ThirdParty/ImGuizmo/*
+ThirdParty/imgui-node-editor/*
+ThirdParty/*/.github/
 
 # Claude Code 로컬 설정
 .claude/

@@ -9,6 +9,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssimpTool", "AssimpTool\AssimpTool.vcxproj", "{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{A92E3839-AD87-4E4C-A83A-6D625B77EE32}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameRuntime", "GameRuntime\GameRuntime.vcxproj", "{CF6F160E-6B27-41A7-B855-4F0479D1B7E8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineTests", "EngineTests\EngineTests.vcxproj", "{E5B5365E-17FD-4C62-AB38-690B709BE474}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{09CC16C7-9F36-4EEE-87B4-AC0DBA07807B}"
 EndProject
 Global
@@ -43,6 +49,24 @@ Global
 		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Release|x64.Build.0 = Release|x64
 		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Release|x86.ActiveCfg = Release|Win32
 		{0CC180DC-4DD6-4CAD-BDDA-29C3B175C786}.Release|x86.Build.0 = Release|Win32
+		{A92E3839-AD87-4E4C-A83A-6D625B77EE32}.Debug|x64.ActiveCfg = Debug|x64
+		{A92E3839-AD87-4E4C-A83A-6D625B77EE32}.Debug|x64.Build.0 = Debug|x64
+		{A92E3839-AD87-4E4C-A83A-6D625B77EE32}.Debug|x86.ActiveCfg = Debug|x64
+		{A92E3839-AD87-4E4C-A83A-6D625B77EE32}.Release|x64.ActiveCfg = Release|x64
+		{A92E3839-AD87-4E4C-A83A-6D625B77EE32}.Release|x64.Build.0 = Release|x64
+		{A92E3839-AD87-4E4C-A83A-6D625B77EE32}.Release|x86.ActiveCfg = Release|x64
+		{CF6F160E-6B27-41A7-B855-4F0479D1B7E8}.Debug|x64.ActiveCfg = Debug|x64
+		{CF6F160E-6B27-41A7-B855-4F0479D1B7E8}.Debug|x64.Build.0 = Debug|x64
+		{CF6F160E-6B27-41A7-B855-4F0479D1B7E8}.Debug|x86.ActiveCfg = Debug|x64
+		{CF6F160E-6B27-41A7-B855-4F0479D1B7E8}.Release|x64.ActiveCfg = Release|x64
+		{CF6F160E-6B27-41A7-B855-4F0479D1B7E8}.Release|x64.Build.0 = Release|x64
+		{CF6F160E-6B27-41A7-B855-4F0479D1B7E8}.Release|x86.ActiveCfg = Release|x64
+		{E5B5365E-17FD-4C62-AB38-690B709BE474}.Debug|x64.ActiveCfg = Debug|x64
+		{E5B5365E-17FD-4C62-AB38-690B709BE474}.Debug|x64.Build.0 = Debug|x64
+		{E5B5365E-17FD-4C62-AB38-690B709BE474}.Debug|x86.ActiveCfg = Debug|x64
+		{E5B5365E-17FD-4C62-AB38-690B709BE474}.Release|x64.ActiveCfg = Release|x64
+		{E5B5365E-17FD-4C62-AB38-690B709BE474}.Release|x64.Build.0 = Release|x64
+		{E5B5365E-17FD-4C62-AB38-690B709BE474}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

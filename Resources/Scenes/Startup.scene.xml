@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<Scene version="1" name="Third Person Demo">
+    <GameObject id="1" name="Ground" active="true">
+        <Transform positionX="0" positionY="-0.15" positionZ="0" rotationX="0" rotationY="0" rotationZ="0" scaleX="12" scaleY="0.15" scaleZ="12"/>
+        <MeshRenderer mesh="Cube" shader="..\Shaders\20. CoreCraft.fx" ambient="0.35" specular="0.15"/>
+    </GameObject>
+    <GameObject id="2" name="Demo Cube" active="true">
+        <Transform positionX="3" positionY="0.75" positionZ="2" rotationX="0" rotationY="0" rotationZ="0" scaleX="1" scaleY="1" scaleZ="1"/>
+        <MeshRenderer mesh="Cube" shader="..\Shaders\20. CoreCraft.fx" ambient="0.25" specular="0.5"/>
+    </GameObject>
+    <GameObject id="3" name="Demo Sphere" active="true">
+        <Transform positionX="-3" positionY="1" positionZ="1" rotationX="0" rotationY="0" rotationZ="0" scaleX="1" scaleY="1" scaleZ="1"/>
+        <MeshRenderer mesh="Sphere" shader="..\Shaders\20. CoreCraft.fx" ambient="0.25" specular="0.8"/>
+    </GameObject>
+    <GameObject id="4" name="Directional Light" active="true">
+        <Transform positionX="0" positionY="5" positionZ="-3" rotationX="0.75" rotationY="-0.45" rotationZ="0" scaleX="1" scaleY="1" scaleZ="1"/>
+        <Light type="Directional" colorR="1" colorG="0.96" colorB="0.88" intensity="1.2" range="10"/>
+    </GameObject>
+    <GameObject id="5" name="Point Light" active="true">
+        <Transform positionX="-2" positionY="3" positionZ="-1" rotationX="0" rotationY="0" rotationZ="0" scaleX="1" scaleY="1" scaleZ="1"/>
+        <Light type="Point" colorR="0.35" colorG="0.65" colorB="1" intensity="3" range="8"/>
+    </GameObject>
+    <GameObject id="6" name="Player Camera" active="true">
+        <Transform positionX="0" positionY="2" positionZ="-5.5" rotationX="0.25" rotationY="0" rotationZ="0" scaleX="1" scaleY="1" scaleZ="1"/>
+        <Camera/>
+    </GameObject>
+    <GameObject id="7" name="Kachujin Player" active="true">
+        <Transform positionX="0" positionY="0" positionZ="0" rotationX="0" rotationY="0" rotationZ="0" scaleX="0.01" scaleY="0.01" scaleZ="0.01"/>
+        <AnimatedModel model="Kachujin/Kachujin" material="Kachujin/Kachujin">
+            <Animation path="Kachujin/Idle"/>
+            <Animation path="Kachujin/Run"/>
+        </AnimatedModel>
+        <PlayerController camera="6" moveSpeed="4" jumpSpeed="7" gravity="-18" cameraDistance="5.5" cameraHeight="1.8"/>
+    </GameObject>
+</Scene>

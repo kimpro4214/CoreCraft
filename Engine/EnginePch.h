@@ -14,6 +14,11 @@
 #include <map>
 #include <unordered_map>
 #include <algorithm>
+#include <atomic>
+#include <filesystem>
+#include <functional>
+#include <string>
+#include <sstream>
 using namespace std;
 
 // WIN
@@ -41,9 +46,9 @@ using namespace Microsoft::WRL;
 #include <Assimp/postprocess.h>
 
 // ImGUI
-#include "imgui.h"
-#include "imgui_impl_dx11.h"
-#include "imgui_impl_win32.h"
+#include <imgui.h>
+#include <imgui_impl_dx11.h>
+#include <imgui_impl_win32.h>
 
 // Libs
 #pragma comment(lib, "d3d11.lib")
@@ -67,6 +72,11 @@ using namespace Microsoft::WRL;
 #include "ResourceManager.h"
 #include "RenderManager.h"
 #include "ImGuiManager.h"
+#include "Scene.h"
+#include "SceneSerializer.h"
+#include "Light.h"
+#include "AnimatedModelRenderer.h"
+#include "PlayerController.h"
 
 // Engine
 #include "VertexData.h"
@@ -80,3 +90,5 @@ using namespace Microsoft::WRL;
 #include "Transform.h"
 #include "Texture.h"
 #include "Mesh.h"
+#include "RenderTexture.h"
+#include "Blueprint.h"
