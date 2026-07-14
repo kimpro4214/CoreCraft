@@ -209,6 +209,7 @@ void EditorApp::Render()
 
 void EditorApp::RenderUI()
 {
+	ImGuizmo::BeginFrame();
 	ImGuiID dockspaceId = ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 	if (_resetLayout)
 		BuildDefaultLayout(dockspaceId);
@@ -637,17 +638,32 @@ void EditorApp::PickViewportObject(const ImVec2& mousePosition)
 	{
 		if (!object->IsActive() || (object->GetMeshRenderer() == nullptr && object->GetLight() == nullptr && object->GetModelAnimator() == nullptr))
 			continue;
-		Vec3 scale = object->GetTransform()->GetScale();
-		float radius = 0.5f;
-		if (object->GetLight() == nullptr)
-		{
-			radius = (std::max)(radius, fabsf(scale.x));
-			radius = (std::max)(radius, fabsf(scale.y));
-			radius = (std::max)(radius, fabsf(scale.z));
-		}
-		DirectX::BoundingSphere sphere(object->GetTransform()->GetPosition(), radius);
 		float distance = 0.f;
-		if (ray.Intersects(sphere, distance) && distance < nearest)
+		bool intersects = false;
+		if (object->GetLight())
+		{
+			DirectX::BoundingSphere sphere(object->GetTransform()->GetPosition(), 0.5f);
+			intersects = ray.Intersects(sphere, distance);
+		}
+		else
+		{
+			Matrix world = object->GetTransform()->GetWorldMatrix();
+			Matrix inverseWorld = world.Invert();
+			Vec3 localOrigin = Vec3::Transform(ray.position, inverseWorld);
+			Vec3 localDirection = Vec3::TransformNormal(ray.direction, inverseWorld);
+			localDirection.Normalize();
+			DirectX::SimpleMath::Ray localRay(localOrigin, localDirection);
+			DirectX::BoundingBox bounds(Vec3::Zero, Vec3(0.5f));
+			float localDistance = 0.f;
+			intersects = localRay.Intersects(bounds, localDistance);
+			if (intersects)
+			{
+				Vec3 localHit = localOrigin + localDirection * localDistance;
+				Vec3 worldHit = Vec3::Transform(localHit, world);
+				distance = Vec3::Distance(ray.position, worldHit);
+			}
+		}
+		if (intersects && distance < nearest)
 		{
 			nearest = distance;
 			picked = object->GetId();
