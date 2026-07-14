@@ -110,7 +110,7 @@ void EditorApp::CreateThirdPersonDemo()
 	shared_ptr<GameObject> player = _scene->CreateGameObject("Kachujin Player");
 	player->GetTransform()->SetScale(Vec3(0.01f));
 	shared_ptr<AnimatedModelRenderer> animator = make_shared<AnimatedModelRenderer>(_animationShader);
-	animator->LoadModel(L"Kachujin/Kachujin", L"Kachujin/Kachujin", { L"Kachujin/Idle", L"Kachujin/Run" });
+	animator->LoadModel(L"Kachujin/Kachujin", L"Kachujin/Kachujin", { L"Kachujin/Idle", L"Kachujin/Run", L"Kachujin/Slash" });
 	player->AddComponent(animator);
 	shared_ptr<PlayerController> controller = make_shared<PlayerController>();
 	controller->SetCamera(camera);
@@ -118,7 +118,7 @@ void EditorApp::CreateThirdPersonDemo()
 	_selectedId = player->GetId();
 	_scene->SetDirty(true);
 	_focusViewport = true;
-	Log("Third Person Demo scene created. WASD move, RMB camera, Space jump.");
+	Log("Third Person Demo scene created. WASD move, LMB slash, RMB camera, Space jump.");
 }
 
 shared_ptr<GameObject> EditorApp::CreatePrimitive(const string& name, const wstring& meshName, const Vec3& position)
