@@ -192,6 +192,8 @@ void AnimatedModelRenderer::CreateAnimationTransform(uint32 index)
 {
 	vector<Matrix> parentTransforms(MAX_MODEL_TRANSFORMS, Matrix::Identity);
 	shared_ptr<ModelAnimation> animation = _model->GetAnimationByIndex(index);
+	if (animation == nullptr)
+		continue;
 	uint32 frameCount = (std::min)(animation->frameCount, static_cast<uint32>(MAX_MODEL_KEYFRAMES));
 	uint32 boneCount = (std::min)(_model->GetBoneCount(), static_cast<uint32>(MAX_MODEL_TRANSFORMS));
 	for (uint32 frameIndex = 0; frameIndex < frameCount; ++frameIndex)
