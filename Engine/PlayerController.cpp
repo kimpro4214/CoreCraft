@@ -25,7 +25,9 @@ void PlayerController::Update()
 	_lastMousePosition = mouse;
 
 	Vec3 input = Vec3::Zero;
-	if (_inputEnabled)
+	const bool attacking = _inputEnabled &&
+		(INPUT->GetButtonDown(KEY_TYPE::LBUTTON) || INPUT->GetButton(KEY_TYPE::LBUTTON));
+	if (_inputEnabled && !attacking)
 	{
 		if (INPUT->GetButton(KEY_TYPE::W)) input.z += 1.f;
 		if (INPUT->GetButton(KEY_TYPE::S)) input.z -= 1.f;
@@ -43,10 +45,10 @@ void PlayerController::Update()
 		Vec3 movement = forward * input.z + right * input.x;
 		movement.Normalize();
 		position += movement * _moveSpeed * DT;
-		GetTransform()->SetRotation({ 0.f, atan2f(movement.x, movement.z), 0.f });
+		GetTransform()->SetRotation({ 0.f, atan2f(movement.x, movement.z) + XM_PI, 0.f });
 	}
 
-	if (_inputEnabled && _grounded && INPUT->GetButtonDown(static_cast<KEY_TYPE>(VK_SPACE)))
+	if (_inputEnabled && !attacking && _grounded && INPUT->GetButtonDown(static_cast<KEY_TYPE>(VK_SPACE)))
 	{
 		_verticalVelocity = _jumpSpeed;
 		_grounded = false;
@@ -63,7 +65,14 @@ void PlayerController::Update()
 
 	shared_ptr<AnimatedModelRenderer> animator = object->GetAnimatedModelRenderer();
 	if (animator)
-		animator->PlayAnimation(moving ? 1 : 0, 0.15f);
+	{
+		if (attacking)
+			animator->PlayAnimation(2, 0.1f);
+		else if (_inputEnabled && INPUT->GetButtonUp(KEY_TYPE::LBUTTON))
+			animator->PlayAnimation(0, 0.1f);
+		else
+			animator->PlayAnimation(moving ? 1 : 0, 0.15f);
+	}
 }
 
 void PlayerController::LateUpdate()
