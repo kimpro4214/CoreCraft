@@ -99,7 +99,10 @@ class BlueprintComponent : public Component
 	using Super = Component;
 
 public:
+	using PrintCallback = function<void(const string&)>;
+
 	BlueprintComponent();
+	static void SetPrintCallback(PrintCallback callback);
 
 	void SetAsset(const shared_ptr<BlueprintAsset>& asset);
 	shared_ptr<BlueprintAsset> GetAsset() const { return _asset; }
@@ -111,6 +114,7 @@ public:
 
 private:
 	void Execute(const vector<BlueprintInstruction>& instructions, float deltaTime);
+	static PrintCallback _printCallback;
 
 	shared_ptr<BlueprintAsset> _asset;
 	CompiledBlueprint _compiled;
