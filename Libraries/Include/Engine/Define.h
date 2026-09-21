@@ -22,3 +22,6 @@ public:										\
 #define DT			TIME->GetDeltaTime()
 #define RESOURCES	GET_SINGLE(ResourceManager)
 #define RENDER		GET_SINGLE(RenderManager)
+#define GUI			GET_SINGLE(ImGuiManager)
+#define SCENE		GET_SINGLE(SceneManager)
+#define COMPONENT_REGISTRY	GET_SINGLE(UComponentRegistry)
