@@ -5,6 +5,10 @@
 #include "Transform.h"
 #include "Light.h"
 #include "PlayerController.h"
+#include "AActor.h"
+#include "USceneComponent.h"
+#include "UWorld.h"
+#include "UComponentRegistry.h"
 
 namespace
 {
@@ -107,6 +111,154 @@ namespace
 			&& loadedPlayer->GetPlayerController()->GetCamera()
 			&& loadedPlayer->GetPlayerController()->GetCamera()->GetId() == camera->GetId();
 	}
+
+	class CountingSceneComponent : public USceneComponent
+	{
+	public:
+		int beginPlayCount = 0;
+		int tickCount = 0;
+		int endPlayCount = 0;
+
+		virtual void BeginPlay() override { beginPlayCount++; }
+		virtual void TickComponent(float deltaTime) override { tickCount++; }
+		virtual void EndPlay() override { endPlayCount++; }
+	};
+
+	class CountingActor : public AActor
+	{
+	public:
+		int tickCount = 0;
+
+		virtual void Tick(float deltaTime) override
+		{
+			AActor::Tick(deltaTime);
+			tickCount++;
+		}
+	};
+
+	bool TestUObjectRTTI()
+	{
+		shared_ptr<AActor> actor = make_shared<AActor>();
+		if (!IsA<UObject>(actor.get())) return false;
+		if (!IsA<AActor>(actor.get())) return false;
+		if (IsA<USceneComponent>(actor.get())) return false;
+
+		shared_ptr<UObject> asUObject = actor;
+		if (!Cast<AActor>(asUObject)) return false;
+		if (Cast<USceneComponent>(asUObject)) return false;
+		return true;
+	}
+
+	bool TestActorComponentOwnerAndLifecycle()
+	{
+		shared_ptr<AActor> actor = make_shared<AActor>();
+		shared_ptr<CountingSceneComponent> component = actor->AddComponent<CountingSceneComponent>();
+		if (component->GetOwner() != actor) return false;
+		if (actor->GetRootComponent() != component) return false;
+
+		actor->BeginPlay();
+		actor->Tick(0.016f);
+		actor->EndPlay();
+
+		return component->beginPlayCount == 1 && component->tickCount == 1 && component->endPlayCount == 1;
+	}
+
+	bool TestSceneComponentHierarchyWorldMatrix()
+	{
+		shared_ptr<AActor> actor = make_shared<AActor>();
+		shared_ptr<USceneComponent> parent = actor->AddComponent<USceneComponent>();
+		parent->SetRelativeLocation({ 1.f, 2.f, 3.f });
+
+		shared_ptr<USceneComponent> child = make_shared<USceneComponent>();
+		if (!child->AttachToComponent(parent)) return false;
+		child->SetRelativeLocation({ 0.f, 1.f, 0.f });
+
+		Vec3 worldLocation = child->GetWorldLocation();
+		return NearlyEqual(worldLocation.x, 1.f) && NearlyEqual(worldLocation.y, 3.f) && NearlyEqual(worldLocation.z, 3.f);
+	}
+
+	bool TestWorldSpawnTickDestroy()
+	{
+		shared_ptr<UWorld> world = make_shared<UWorld>();
+		shared_ptr<CountingActor> actor = world->SpawnActor<CountingActor>();
+		if (world->GetActors().size() != 1) return false;
+
+		world->Tick(0.016f);
+		if (actor->tickCount != 1) return false;
+
+		world->DestroyActor(actor);
+		return world->GetActors().empty();
+	}
+
+	bool TestActorAttachDetach()
+	{
+		shared_ptr<UWorld> world = make_shared<UWorld>();
+		shared_ptr<AActor> a = world->SpawnActor<AActor>();
+		shared_ptr<AActor> b = world->SpawnActor<AActor>();
+		shared_ptr<AActor> c = world->SpawnActor<AActor>();
+		a->AddComponent<USceneComponent>();
+		b->AddComponent<USceneComponent>();
+		c->AddComponent<USceneComponent>();
+
+		if (!b->AttachToActor(a)) return false;
+		if (!c->AttachToActor(b)) return false;
+
+		if (b->GetParentActor() != a) return false;
+		if (c->GetParentActor() != b) return false;
+		vector<shared_ptr<AActor>> aChildren = a->GetAttachedActors();
+		if (aChildren.size() != 1 || aChildren[0] != b) return false;
+
+		vector<shared_ptr<AActor>> roots = world->GetRootActors();
+		if (roots.size() != 1 || roots[0] != a) return false;
+
+		b->DetachFromActor();
+		if (b->GetParentActor() != nullptr) return false;
+		if (!a->GetAttachedActors().empty()) return false;
+
+		roots = world->GetRootActors();
+		return roots.size() == 2
+			&& find(roots.begin(), roots.end(), a) != roots.end()
+			&& find(roots.begin(), roots.end(), b) != roots.end();
+	}
+
+	bool TestActorRemoveComponent()
+	{
+		shared_ptr<AActor> actor = make_shared<AActor>();
+		shared_ptr<USceneComponent> root = actor->AddComponent<USceneComponent>();
+		shared_ptr<USceneComponent> child = actor->AddComponent<USceneComponent>();
+		if (!child->AttachToComponent(root)) return false;
+
+		if (!actor->RemoveComponent(root)) return false;
+		if (actor->GetRootComponent() != nullptr) return false;
+		if (child->GetAttachParent() != nullptr) return false;
+
+		return actor->RemoveComponent(child);
+	}
+
+	bool TestComponentRegistryCreate()
+	{
+		COMPONENT_REGISTRY->Register<USceneComponent>();
+
+		shared_ptr<UActorComponent> created = COMPONENT_REGISTRY->Create(FName("USceneComponent"));
+		if (!created || !IsA<USceneComponent>(created.get())) return false;
+
+		return COMPONENT_REGISTRY->Create(FName("NoSuchComponentXYZ")) == nullptr;
+	}
+
+	bool TestWorldDestroyActorDetachesChildren()
+	{
+		shared_ptr<UWorld> world = make_shared<UWorld>();
+		shared_ptr<AActor> parent = world->SpawnActor<AActor>();
+		shared_ptr<AActor> child = world->SpawnActor<AActor>();
+		parent->AddComponent<USceneComponent>();
+		child->AddComponent<USceneComponent>();
+		if (!child->AttachToActor(parent)) return false;
+
+		world->DestroyActor(parent);
+
+		if (child->GetParentActor() != nullptr) return false;
+		return world->GetActors().size() == 1 && world->GetActors()[0] == child;
+	}
 }
 
 int main()
@@ -118,6 +270,14 @@ int main()
 		{ "Blueprint compile", TestBlueprintCompile },
 		{ "Hierarchy lifetime", TestNoHierarchyLeak },
 		{ "Light and player round trip", TestLightAndPlayerRoundTrip },
+		{ "UObject RTTI", TestUObjectRTTI },
+		{ "ActorComponent owner and lifecycle", TestActorComponentOwnerAndLifecycle },
+		{ "SceneComponent hierarchy world matrix", TestSceneComponentHierarchyWorldMatrix },
+		{ "World spawn/tick/destroy", TestWorldSpawnTickDestroy },
+		{ "Actor attach/detach", TestActorAttachDetach },
+		{ "Actor RemoveComponent", TestActorRemoveComponent },
+		{ "Component registry create", TestComponentRegistryCreate },
+		{ "World DestroyActor detaches children", TestWorldDestroyActorDetachesChildren },
 	};
 
 	for (const auto& [name, test] : tests)

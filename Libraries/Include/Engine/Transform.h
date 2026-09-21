@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Component.h"
 
 class Transform : public Component
@@ -35,14 +35,13 @@ public:
 
 	Matrix GetWorldMatrix() { return _matWorld; }
 
-	// °èÃþ °ü°è
-	bool HasParent() { return _parent != nullptr; }
+	// ê³„ì¸µ ê´€ê³„
+	bool HasParent() const { return !_parent.expired(); }
 	
-	shared_ptr<Transform> GetParent() { return _parent; }
-	void SetParent(shared_ptr<Transform> parent) { _parent = parent; }
+	shared_ptr<Transform> GetParent() const { return _parent.lock(); }
+	bool SetParent(shared_ptr<Transform> parent);
 
 	const vector<shared_ptr<Transform>>& GetChildren() { return _children; }
-	void AddChild(shared_ptr<Transform> child) { _children.push_back(child); }
 
 private:
 	Vec3 _localScale = { 1.f, 1.f, 1.f }; 
@@ -58,7 +57,7 @@ private:
 	Vec3 _position;
 
 private:
-	shared_ptr<Transform> _parent;
+	weak_ptr<Transform> _parent;
 	vector<shared_ptr<Transform>> _children;
 };
 

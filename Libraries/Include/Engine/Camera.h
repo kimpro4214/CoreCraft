@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "Component.h"
 
 enum class ProjectionType
 {
-	Perspective, // ¿ø±Ù Åõ¿µ
-	Orthographic, // Á÷±³ Åõ¿µ
+	Perspective, // ì›ê·¼ íˆ¬ì˜
+	Orthographic, // ì§êµ íˆ¬ì˜
 };
 
 class Camera :  public Component
@@ -23,6 +23,11 @@ public:
 	void SetFOV(float value) { _fov = value; }
 	void SetWidth(float value) { _width = value; }
 	void SetHeight(float value) { _height = value; }
+	void SetViewportSize(float width, float height)
+	{
+		_width = max(width, 1.f);
+		_height = max(height, 1.f);
+	}
 
 	Matrix& GetViewMatrix() { return _matView; }
 	Matrix& GetProjectionMatrix() { return _matProjection; }

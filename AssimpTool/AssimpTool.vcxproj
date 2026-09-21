@@ -152,6 +152,7 @@
     <ClInclude Include="Converter.h" />
     <ClInclude Include="ImGuiDemo.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="ObjViewerDemo.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SkyDemo.h" />
     <ClInclude Include="StaticMeshDemo.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Converter.cpp" />
     <ClCompile Include="ImGuiDemo.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ObjViewerDemo.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

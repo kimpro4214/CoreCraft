@@ -29,6 +29,11 @@ private:
 		function<void()> undo;
 		function<void()> redo;
 	};
+	struct ViewportMessage
+	{
+		string text;
+		double expiresAt = 0.0;
+	};
 
 	void CreateDefaultScene();
 	void CreateThirdPersonDemo();
@@ -41,6 +46,7 @@ private:
 	void DrawHierarchyNode(const shared_ptr<GameObject>& object);
 	void DrawInspector();
 	void DrawViewport();
+	void DrawViewportMessages();
 	void DrawContentBrowser();
 	void DrawOutputLog();
 	void DrawBlueprintEditor();
@@ -61,6 +67,7 @@ private:
 	void Undo();
 	void Redo();
 	void Log(const string& message);
+	void ShowViewportMessage(const string& message);
 
 	filesystem::path SelectScenePath(bool save) const;
 	shared_ptr<GameObject> GetSelected() const;
@@ -101,4 +108,5 @@ private:
 	vector<EditorCommand> _undoStack;
 	vector<EditorCommand> _redoStack;
 	vector<string> _logs;
+	vector<ViewportMessage> _viewportMessages;
 };

@@ -64,6 +64,7 @@ void EditorApp::Init()
 	ed::Config config;
 	config.SettingsFile = "CoreCraftBlueprint.json";
 	_nodeEditor = ed::CreateEditor(&config);
+	BlueprintComponent::SetPrintCallback([this](const string& message) { ShowViewportMessage(message); });
 
 	CreateDefaultScene();
 	Log("Core Craft Editor started.");
@@ -567,9 +568,31 @@ void EditorApp::DrawViewport()
 	DrawViewportGrid();
 	DrawLightIcons();
 	DrawGizmo();
+	DrawViewportMessages();
 	if (imageClicked && !ImGuizmo::IsOver() && !ImGuizmo::IsUsing())
 		PickViewportObject(ImGui::GetIO().MousePos);
 	ImGui::End();
+}
+
+void EditorApp::DrawViewportMessages()
+{
+	const double now = ImGui::GetTime();
+	_viewportMessages.erase(remove_if(_viewportMessages.begin(), _viewportMessages.end(), [now](const ViewportMessage& message)
+	{
+		return message.expiresAt <= now;
+	}), _viewportMessages.end());
+
+	ImDrawList* drawList = ImGui::GetWindowDrawList();
+	const ImVec2 clipMax(_viewportPosition.x + _viewportSize.x, _viewportPosition.y + _viewportSize.y);
+	drawList->PushClipRect(_viewportPosition, clipMax, true);
+	ImVec2 position(_viewportPosition.x + 16.f, _viewportPosition.y + 16.f);
+	for (const ViewportMessage& message : _viewportMessages)
+	{
+		drawList->AddText(ImVec2(position.x + 1.f, position.y + 1.f), IM_COL32(0, 0, 0, 220), message.text.c_str());
+		drawList->AddText(position, IM_COL32(255, 235, 120, 255), message.text.c_str());
+		position.y += ImGui::GetTextLineHeightWithSpacing();
+	}
+	drawList->PopClipRect();
 }
 
 void EditorApp::DrawViewportGrid()
@@ -1023,6 +1046,23 @@ void EditorApp::Log(const string& message)
 	OutputDebugStringA((message + "\n").c_str());
 }
 
+void EditorApp::ShowViewportMessage(const string& message)
+{
+	if (message.empty())
+		return;
+	const double expiresAt = ImGui::GetTime() + 3.0;
+	auto found = find_if(_viewportMessages.begin(), _viewportMessages.end(), [&message](const ViewportMessage& item)
+	{
+		return item.text == message;
+	});
+	if (found != _viewportMessages.end())
+	{
+		found->expiresAt = expiresAt;
+		return;
+	}
+	_viewportMessages.push_back({ message, expiresAt });
+}
+
 shared_ptr<GameObject> EditorApp::GetSelected() const
 {
 	return _scene ? _scene->FindGameObject(_selectedId) : nullptr;
@@ -1030,6 +1070,7 @@ shared_ptr<GameObject> EditorApp::GetSelected() const
 
 void EditorApp::Shutdown()
 {
+	BlueprintComponent::SetPrintCallback({});
 	StopPlay();
 	if (_nodeEditor)
 	{

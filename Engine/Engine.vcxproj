@@ -159,6 +159,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AActor.h" />
     <ClInclude Include="Blueprint.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="AnimatedModelRenderer.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="FileUtils.h" />
+    <ClInclude Include="FName.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -212,17 +214,27 @@
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="UActorComponent.h" />
+    <ClInclude Include="UComponentRegistry.h" />
+    <ClInclude Include="UMeshComponent.h" />
+    <ClInclude Include="UObject.h" />
+    <ClInclude Include="UPrimitiveComponent.h" />
+    <ClInclude Include="USceneComponent.h" />
+    <ClInclude Include="UStaticMeshComponent.h" />
+    <ClInclude Include="UWorld.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexData.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AActor.cpp" />
     <ClCompile Include="Blueprint.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="AnimatedModelRenderer.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="FileUtils.cpp" />
+    <ClCompile Include="FName.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -310,6 +322,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UActorComponent.cpp" />
+    <ClCompile Include="UComponentRegistry.cpp" />
+    <ClCompile Include="UMeshComponent.cpp" />
+    <ClCompile Include="UObject.cpp" />
+    <ClCompile Include="UPrimitiveComponent.cpp" />
+    <ClCompile Include="USceneComponent.cpp" />
+    <ClCompile Include="UStaticMeshComponent.cpp" />
+    <ClCompile Include="UWorld.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexData.cpp" />

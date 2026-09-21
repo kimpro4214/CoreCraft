@@ -16,6 +16,15 @@
     <Filter Include="04. Component">
       <UniqueIdentifier>{e166526b-dc19-4fd7-afd7-8bec4c98fe97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. UObject">
+      <UniqueIdentifier>{adc9b9a4-a03d-40e2-a8c8-359adbbf5a18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. UActorComponent">
+      <UniqueIdentifier>{945c1875-b6ca-472e-8902-65692e1624c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. MeshComponent">
+      <UniqueIdentifier>{68bb180f-ed93-4787-89fb-a95ebd6121a1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="98. Utils">
       <UniqueIdentifier>{f9f7cd86-7a6b-41c4-9b93-3a0909f0920a}</UniqueIdentifier>
     </Filter>
@@ -186,6 +195,36 @@
     <ClInclude Include="ModelAnimator.h">
       <Filter>04. Component</Filter>
     </ClInclude>
+    <ClInclude Include="FName.h">
+      <Filter>05. UObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UObject.h">
+      <Filter>05. UObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AActor.h">
+      <Filter>05. UObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UWorld.h">
+      <Filter>05. UObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UActorComponent.h">
+      <Filter>06. UActorComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="USceneComponent.h">
+      <Filter>06. UActorComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="UPrimitiveComponent.h">
+      <Filter>06. UActorComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="UComponentRegistry.h">
+      <Filter>05. UObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UMeshComponent.h">
+      <Filter>07. MeshComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="UStaticMeshComponent.h">
+      <Filter>07. MeshComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -322,6 +361,36 @@
     </ClCompile>
     <ClCompile Include="ModelAnimator.cpp">
       <Filter>04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="FName.cpp">
+      <Filter>05. UObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UObject.cpp">
+      <Filter>05. UObject</Filter>
+    </ClCompile>
+    <ClCompile Include="AActor.cpp">
+      <Filter>05. UObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UWorld.cpp">
+      <Filter>05. UObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UActorComponent.cpp">
+      <Filter>06. UActorComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="USceneComponent.cpp">
+      <Filter>06. UActorComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="UPrimitiveComponent.cpp">
+      <Filter>06. UActorComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="UComponentRegistry.cpp">
+      <Filter>05. UObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UMeshComponent.cpp">
+      <Filter>07. MeshComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="UStaticMeshComponent.cpp">
+      <Filter>07. MeshComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

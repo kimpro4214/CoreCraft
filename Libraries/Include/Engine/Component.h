@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 class GameObject;
 class Transform;
@@ -10,6 +10,9 @@ enum class ComponentType : uint8
 	ModelRenderer,
 	Camera,
 	Animator,
+	AnimatedRenderer,
+	Light,
+	Blueprint,
 	// ...
 	Script,
 
@@ -32,9 +35,10 @@ public:
 	virtual void Update() { }
 	virtual void LateUpdate() { }
 	virtual void FixedUpdate() { }
+	virtual void Render() { }
 
 public:
-	ComponentType GetType() { return _type; }
+	ComponentType GetType() const { return _type; }
 
 	shared_ptr<GameObject> GetGameObject();
 	shared_ptr<Transform> GetTransform();

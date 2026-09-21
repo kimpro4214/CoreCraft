@@ -231,9 +231,16 @@ shared_ptr<BlueprintAsset> BlueprintAsset::Load(const filesystem::path& path, st
 	return asset;
 }
 
+BlueprintComponent::PrintCallback BlueprintComponent::_printCallback;
+
 BlueprintComponent::BlueprintComponent()
 	: Super(ComponentType::Blueprint)
 {
+}
+
+void BlueprintComponent::SetPrintCallback(PrintCallback callback)
+{
+	_printCallback = move(callback);
 }
 
 void BlueprintComponent::SetAsset(const shared_ptr<BlueprintAsset>& asset)
@@ -279,6 +286,8 @@ void BlueprintComponent::Execute(const vector<BlueprintInstruction>& instruction
 			break;
 		case BlueprintOperation::PrintLog:
 			OutputDebugStringA((instruction.textValue + "\n").c_str());
+			if (_printCallback)
+				_printCallback(instruction.textValue);
 			break;
 		}
 	}

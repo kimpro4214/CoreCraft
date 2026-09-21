@@ -14,6 +14,7 @@ public:
 	shared_ptr<Texture> GetDiffuseMap() { return _diffuseMap; }
 	shared_ptr<Texture> GetNormalMap() { return _normalMap; }
 	shared_ptr<Texture> GetSpecularMap() { return _specularMap; }
+	const MaterialDesc& GetMaterialDesc() const { return _desc; }
 
 	void SetShader(shared_ptr<Shader> shader);
 	void SetDiffuseMap(shared_ptr<Texture> diffuseMap) { _diffuseMap = diffuseMap; }
