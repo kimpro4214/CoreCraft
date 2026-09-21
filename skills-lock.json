@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "modern-cpp": {
+      "source": "trailofbits/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/modern-cpp/skills/modern-cpp/SKILL.md",
+      "computedHash": "da28debe7451b6b24de69a3b43b43da61900d21ace3fc7dcb120b3710e1a4611"
+    }
+  }
+}
