@@ -18,6 +18,8 @@ void ImGuiManager::Init()
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(GAME->GetGameDesc().hWnd);
 	ImGui_ImplDX11_Init(DEVICE.Get(), DC.Get());
+
+	CONSOLE->Init();
 }
 
 void ImGuiManager::Update()
@@ -25,10 +27,14 @@ void ImGuiManager::Update()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	CONSOLE->Update();
 }
 
 void ImGuiManager::Render()
 {
+	CONSOLE->Draw();
+
 	// Rendering
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

@@ -9,6 +9,7 @@
 #include "USceneComponent.h"
 #include "UWorld.h"
 #include "UComponentRegistry.h"
+#include "Console.h"
 
 namespace
 {
@@ -259,6 +260,75 @@ namespace
 		if (child->GetParentActor() != nullptr) return false;
 		return world->GetActors().size() == 1 && world->GetActors()[0] == child;
 	}
+
+	size_t CountObjects()
+	{
+		size_t count = 0;
+		for (FObjectIterator<UObject> it; it; ++it)
+			count++;
+		return count;
+	}
+
+	size_t CountActors()
+	{
+		size_t count = 0;
+		for (FObjectIterator<AActor> it; it; ++it)
+			count++;
+		return count;
+	}
+
+	bool TestObjectIterator()
+	{
+		size_t objectsBefore = CountObjects();
+		size_t actorsBefore = CountActors();
+
+		{
+			shared_ptr<AActor> a = make_shared<AActor>();
+			shared_ptr<AActor> b = make_shared<AActor>();
+			shared_ptr<USceneComponent> c = make_shared<USceneComponent>();
+
+			if (CountActors() != actorsBefore + 2) return false;
+			if (CountObjects() != objectsBefore + 3) return false;
+
+			bool foundA = false;
+			bool foundB = false;
+			for (FObjectIterator<AActor> it; it; ++it)
+			{
+				if (*it == a.get()) foundA = true;
+				if (*it == b.get()) foundB = true;
+			}
+			if (!foundA || !foundB) return false;
+		}
+
+		return CountObjects() == objectsBefore && CountActors() == actorsBefore;
+	}
+
+	bool TestConsoleCommands()
+	{
+		CONSOLE->Init();
+		CONSOLE->Execute("clear");
+
+		vector<string> echoedArgs;
+		CONSOLE->RegisterCommand("echo", [&echoedArgs](const vector<string>& args)
+		{
+			echoedArgs = args;
+		});
+
+		CONSOLE->Execute("echo hello world");
+		if (echoedArgs.size() != 2 || echoedArgs[0] != "hello" || echoedArgs[1] != "world") return false;
+
+		CONSOLE->Execute("nosuchcommand");
+		bool foundUnknown = false;
+		for (const string& line : CONSOLE->GetHistory())
+		{
+			if (line == "Unknown command: nosuchcommand")
+				foundUnknown = true;
+		}
+		if (!foundUnknown) return false;
+
+		CONSOLE->Execute("clear");
+		return CONSOLE->GetHistory().empty();
+	}
 }
 
 int main()
@@ -278,6 +348,8 @@ int main()
 		{ "Actor RemoveComponent", TestActorRemoveComponent },
 		{ "Component registry create", TestComponentRegistryCreate },
 		{ "World DestroyActor detaches children", TestWorldDestroyActorDetachesChildren },
+		{ "FObjectIterator", TestObjectIterator },
+		{ "Console commands", TestConsoleCommands },
 	};
 
 	for (const auto& [name, test] : tests)

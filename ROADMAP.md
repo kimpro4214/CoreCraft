@@ -88,10 +88,6 @@ Top/Front/Side(직교) + Perspective 4분할 뷰를 보여주려면 렌더타겟
 할당량을 추적해서 언리얼의 `stat memory`처럼 ImGui 오버레이 창으로 띄우는 기능이 없다. 커스텀
 allocator나 할당 후킹으로 힙 사용량을 추적하는 작업이 선행돼야 한다.
 
-## 인게임 콘솔
-
-런타임에 명령어를 입력해서 실행할 수 있는 콘솔 창이 없다.
-
 ## 씬(월드) 매니저 확장
 
 `SceneManager`는 활성 씬 하나만 관리한다(`GetActiveScene`) — 다중 월드나 레벨 스트리밍 개념이 없다.
@@ -103,13 +99,6 @@ allocator나 할당 후킹으로 힙 사용량을 추적하는 작업이 선행�
 `AssimpTool/ObjViewerDemo`에 만든 아웃라이너는 그 데모 전용이고, 실제 프로덕션 `Editor`
 (GameObject 기반)에는 붙어 있지 않다. `UWorld`/`AActor` 계층을 `Editor`에 통합하고 아웃라이너를
 정식 에디터 패널로 승격하는 작업이 필요하다.
-
-## FObjectIterator
-
-언리얼의 `TObjectIterator<T>`처럼 살아있는 모든 `UObject`(또는 특정 타입)를 순회하는 전역
-이터레이터가 없다. 지금은 `UWorld::GetActors()`로 액터만 순회할 수 있고, 컴포넌트나 임의
-`UObject` 전체를 순회할 방법이 없다 — `UObject` 생성/소멸 시 전역 레지스트리에 등록/해제하는
-처리가 선행돼야 한다.
 
 ## OBJ 머티리얼(.mtl) 전체 파싱
 
