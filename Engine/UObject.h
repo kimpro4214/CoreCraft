@@ -43,7 +43,7 @@ class UObject : public enable_shared_from_this<UObject>
 {
 public:
 	UObject();
-	virtual ~UObject() = default;
+	virtual ~UObject();
 
 	static UClass* StaticClass();
 	virtual UClass* GetClass() const { return StaticClass(); }
@@ -51,6 +51,8 @@ public:
 	const FName& GetName() const { return _name; }
 	void SetName(const FName& name) { _name = name; }
 	UObjectId GetUniqueId() const { return _id; }
+
+	static const vector<UObject*>& GetAllUObjects();
 
 protected:
 	FName _name;

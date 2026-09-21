@@ -219,6 +219,9 @@
     <ClInclude Include="UComponentRegistry.h">
       <Filter>05. UObject</Filter>
     </ClInclude>
+    <ClInclude Include="FObjectIterator.h">
+      <Filter>05. UObject</Filter>
+    </ClInclude>
     <ClInclude Include="UMeshComponent.h">
       <Filter>07. MeshComponent</Filter>
     </ClInclude>
@@ -384,6 +387,9 @@
       <Filter>06. UActorComponent</Filter>
     </ClCompile>
     <ClCompile Include="UComponentRegistry.cpp">
+      <Filter>05. UObject</Filter>
+    </ClCompile>
+    <ClCompile Include="FObjectIterator.cpp">
       <Filter>05. UObject</Filter>
     </ClCompile>
     <ClCompile Include="UMeshComponent.cpp">
