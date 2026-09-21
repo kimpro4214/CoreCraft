@@ -23,8 +23,11 @@ public:
 
 	void DestroyActor(const shared_ptr<AActor>& actor);
 	void Tick(float deltaTime);
+	void Render();
 
 	const vector<shared_ptr<AActor>>& GetActors() const { return _actors; }
+	vector<shared_ptr<AActor>> GetRootActors() const;
+	shared_ptr<AActor> FindActor(UObjectId id) const;
 
 private:
 	vector<shared_ptr<AActor>> _actors;
