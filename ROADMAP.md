@@ -104,13 +104,6 @@ allocator나 할당 후킹으로 힙 사용량을 추적하는 작업이 선행�
 (GameObject 기반)에는 붙어 있지 않다. `UWorld`/`AActor` 계층을 `Editor`에 통합하고 아웃라이너를
 정식 에디터 패널로 승격하는 작업이 필요하다.
 
-## FObjectIterator
-
-언리얼의 `TObjectIterator<T>`처럼 살아있는 모든 `UObject`(또는 특정 타입)를 순회하는 전역
-이터레이터가 없다. 지금은 `UWorld::GetActors()`로 액터만 순회할 수 있고, 컴포넌트나 임의
-`UObject` 전체를 순회할 방법이 없다 — `UObject` 생성/소멸 시 전역 레지스트리에 등록/해제하는
-처리가 선행돼야 한다.
-
 ## OBJ 머티리얼(.mtl) 전체 파싱
 
 `AssimpTool/Converter::ReadMaterialData`가 Assimp의 `AI_MATKEY_COLOR_*`/텍스처 정도만 다루는
