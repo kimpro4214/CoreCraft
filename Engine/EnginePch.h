@@ -96,8 +96,11 @@ using namespace Microsoft::WRL;
 // UObject
 #include "FName.h"
 #include "UObject.h"
+#include "UComponentRegistry.h"
 #include "UActorComponent.h"
 #include "USceneComponent.h"
 #include "UPrimitiveComponent.h"
+#include "UMeshComponent.h"
+#include "UStaticMeshComponent.h"
 #include "AActor.h"
 #include "UWorld.h"

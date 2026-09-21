@@ -8,6 +8,7 @@
 #include "AActor.h"
 #include "USceneComponent.h"
 #include "UWorld.h"
+#include "UComponentRegistry.h"
 
 namespace
 {
@@ -188,6 +189,76 @@ namespace
 		world->DestroyActor(actor);
 		return world->GetActors().empty();
 	}
+
+	bool TestActorAttachDetach()
+	{
+		shared_ptr<UWorld> world = make_shared<UWorld>();
+		shared_ptr<AActor> a = world->SpawnActor<AActor>();
+		shared_ptr<AActor> b = world->SpawnActor<AActor>();
+		shared_ptr<AActor> c = world->SpawnActor<AActor>();
+		a->AddComponent<USceneComponent>();
+		b->AddComponent<USceneComponent>();
+		c->AddComponent<USceneComponent>();
+
+		if (!b->AttachToActor(a)) return false;
+		if (!c->AttachToActor(b)) return false;
+
+		if (b->GetParentActor() != a) return false;
+		if (c->GetParentActor() != b) return false;
+		vector<shared_ptr<AActor>> aChildren = a->GetAttachedActors();
+		if (aChildren.size() != 1 || aChildren[0] != b) return false;
+
+		vector<shared_ptr<AActor>> roots = world->GetRootActors();
+		if (roots.size() != 1 || roots[0] != a) return false;
+
+		b->DetachFromActor();
+		if (b->GetParentActor() != nullptr) return false;
+		if (!a->GetAttachedActors().empty()) return false;
+
+		roots = world->GetRootActors();
+		return roots.size() == 2
+			&& find(roots.begin(), roots.end(), a) != roots.end()
+			&& find(roots.begin(), roots.end(), b) != roots.end();
+	}
+
+	bool TestActorRemoveComponent()
+	{
+		shared_ptr<AActor> actor = make_shared<AActor>();
+		shared_ptr<USceneComponent> root = actor->AddComponent<USceneComponent>();
+		shared_ptr<USceneComponent> child = actor->AddComponent<USceneComponent>();
+		if (!child->AttachToComponent(root)) return false;
+
+		if (!actor->RemoveComponent(root)) return false;
+		if (actor->GetRootComponent() != nullptr) return false;
+		if (child->GetAttachParent() != nullptr) return false;
+
+		return actor->RemoveComponent(child);
+	}
+
+	bool TestComponentRegistryCreate()
+	{
+		COMPONENT_REGISTRY->Register<USceneComponent>();
+
+		shared_ptr<UActorComponent> created = COMPONENT_REGISTRY->Create(FName("USceneComponent"));
+		if (!created || !IsA<USceneComponent>(created.get())) return false;
+
+		return COMPONENT_REGISTRY->Create(FName("NoSuchComponentXYZ")) == nullptr;
+	}
+
+	bool TestWorldDestroyActorDetachesChildren()
+	{
+		shared_ptr<UWorld> world = make_shared<UWorld>();
+		shared_ptr<AActor> parent = world->SpawnActor<AActor>();
+		shared_ptr<AActor> child = world->SpawnActor<AActor>();
+		parent->AddComponent<USceneComponent>();
+		child->AddComponent<USceneComponent>();
+		if (!child->AttachToActor(parent)) return false;
+
+		world->DestroyActor(parent);
+
+		if (child->GetParentActor() != nullptr) return false;
+		return world->GetActors().size() == 1 && world->GetActors()[0] == child;
+	}
 }
 
 int main()
@@ -203,6 +274,10 @@ int main()
 		{ "ActorComponent owner and lifecycle", TestActorComponentOwnerAndLifecycle },
 		{ "SceneComponent hierarchy world matrix", TestSceneComponentHierarchyWorldMatrix },
 		{ "World spawn/tick/destroy", TestWorldSpawnTickDestroy },
+		{ "Actor attach/detach", TestActorAttachDetach },
+		{ "Actor RemoveComponent", TestActorRemoveComponent },
+		{ "Component registry create", TestComponentRegistryCreate },
+		{ "World DestroyActor detaches children", TestWorldDestroyActorDetachesChildren },
 	};
 
 	for (const auto& [name, test] : tests)

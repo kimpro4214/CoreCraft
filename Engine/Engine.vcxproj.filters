@@ -22,6 +22,9 @@
     <Filter Include="06. UActorComponent">
       <UniqueIdentifier>{945c1875-b6ca-472e-8902-65692e1624c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. MeshComponent">
+      <UniqueIdentifier>{68bb180f-ed93-4787-89fb-a95ebd6121a1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="98. Utils">
       <UniqueIdentifier>{f9f7cd86-7a6b-41c4-9b93-3a0909f0920a}</UniqueIdentifier>
     </Filter>
@@ -213,6 +216,15 @@
     <ClInclude Include="UPrimitiveComponent.h">
       <Filter>06. UActorComponent</Filter>
     </ClInclude>
+    <ClInclude Include="UComponentRegistry.h">
+      <Filter>05. UObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UMeshComponent.h">
+      <Filter>07. MeshComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="UStaticMeshComponent.h">
+      <Filter>07. MeshComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -370,6 +382,15 @@
     </ClCompile>
     <ClCompile Include="UPrimitiveComponent.cpp">
       <Filter>06. UActorComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="UComponentRegistry.cpp">
+      <Filter>05. UObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UMeshComponent.cpp">
+      <Filter>07. MeshComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="UStaticMeshComponent.cpp">
+      <Filter>07. MeshComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
