@@ -92,3 +92,12 @@ using namespace Microsoft::WRL;
 #include "Mesh.h"
 #include "RenderTexture.h"
 #include "Blueprint.h"
+
+// UObject
+#include "FName.h"
+#include "UObject.h"
+#include "UActorComponent.h"
+#include "USceneComponent.h"
+#include "UPrimitiveComponent.h"
+#include "AActor.h"
+#include "UWorld.h"
