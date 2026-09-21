@@ -24,6 +24,8 @@ enum class KEY_TYPE
 
 	LBUTTON = VK_LBUTTON,
 	RBUTTON = VK_RBUTTON,
+
+	TILDE = VK_OEM_3,
 };
 
 enum class KEY_STATE
@@ -49,11 +51,11 @@ public:
 	void Init(HWND hwnd);
 	void Update();
 
-	// ´©¸£°í ÀÖÀ» ¶§
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	bool GetButton(KEY_TYPE key) { return GetState(key) == KEY_STATE::PRESS; }
-	// ¸Ç Ã³À½ ´­·¶À» ¶§
+	// ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	bool GetButtonDown(KEY_TYPE key) { return GetState(key) == KEY_STATE::DOWN; }
-	// ¸Ç Ã³À½ ´­·¶´Ù ¶ÃÀ» ¶§
+	// ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	bool GetButtonUp(KEY_TYPE key) { return GetState(key) == KEY_STATE::UP; }
 	
 	const POINT& GetMousePos() { return _mousePos; }

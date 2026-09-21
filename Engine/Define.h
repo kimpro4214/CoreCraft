@@ -23,5 +23,6 @@ public:										\
 #define RESOURCES	GET_SINGLE(ResourceManager)
 #define RENDER		GET_SINGLE(RenderManager)
 #define GUI			GET_SINGLE(ImGuiManager)
+#define CONSOLE		GET_SINGLE(Console)
 #define SCENE		GET_SINGLE(SceneManager)
 #define COMPONENT_REGISTRY	GET_SINGLE(UComponentRegistry)

@@ -189,6 +189,9 @@
     <ClInclude Include="ImGuiManager.h">
       <Filter>02. Managers</Filter>
     </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>02. Managers</Filter>
+    </ClInclude>
     <ClInclude Include="ModelAnimation.h">
       <Filter>00. Engine\Resource\Model</Filter>
     </ClInclude>
@@ -357,6 +360,9 @@
       <Filter>98. Utils\ImGUI</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiManager.cpp">
+      <Filter>02. Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
       <Filter>02. Managers</Filter>
     </ClCompile>
     <ClCompile Include="ModelAnimation.cpp">
