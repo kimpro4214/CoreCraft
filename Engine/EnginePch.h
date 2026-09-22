@@ -73,6 +73,7 @@ using namespace Microsoft::WRL;
 #include "RenderManager.h"
 #include "ImGuiManager.h"
 #include "Console.h"
+#include "DebugDraw.h"
 #include "Scene.h"
 #include "SceneSerializer.h"
 #include "Light.h"

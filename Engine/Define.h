@@ -24,5 +24,6 @@ public:										\
 #define RENDER		GET_SINGLE(RenderManager)
 #define GUI			GET_SINGLE(ImGuiManager)
 #define CONSOLE		GET_SINGLE(Console)
+#define DEBUG_DRAW	GET_SINGLE(DebugDraw)
 #define SCENE		GET_SINGLE(SceneManager)
 #define COMPONENT_REGISTRY	GET_SINGLE(UComponentRegistry)

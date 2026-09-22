@@ -120,6 +120,8 @@ void Scene::Render()
 {
 	for (const shared_ptr<GameObject>& object : _gameObjects)
 		object->Render();
+
+	DEBUG_DRAW->Flush();
 }
 
 void Scene::BuildLightData(LightDesc& data) const
