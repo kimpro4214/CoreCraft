@@ -44,10 +44,16 @@ void DebugDraw::DrawGrid(float halfSize, float step, const Color& color)
 	if (step <= 0.f)
 		return;
 
-	for (float v = -halfSize; v <= halfSize + 0.0001f; v += step)
+	for (float v = -halfSize; v <= halfSize + 0.0001f; )
 	{
 		DrawLine({ v, 0.f, -halfSize }, { v, 0.f, halfSize }, color);
 		DrawLine({ -halfSize, 0.f, v }, { halfSize, 0.f, v }, color);
+
+		// step이 v에 비해 너무 작으면 v += step이 반올림돼 무한 루프가 된다
+		const float next = v + step;
+		if (next <= v)
+			break;
+		v = next;
 	}
 }
 
