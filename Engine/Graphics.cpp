@@ -9,6 +9,7 @@ void Graphics::Init(HWND hwnd)
 	CreateRenderTargetView();
 	CreateDepthStencilView();
 	SetViewport(static_cast<uint32>(GAME->GetGameDesc().width), static_cast<uint32>(GAME->GetGameDesc().height));
+	CreateWireframeRasterizerState();
 }
 
 void Graphics::RenderBegin()
@@ -140,4 +141,23 @@ void Graphics::SetViewport(uint32 width, uint32 height)
 	_viewport.Height = static_cast<float>(height);
 	_viewport.MinDepth = 0.0f;
 	_viewport.MaxDepth = 1.0f;
+}
+
+void Graphics::SetWireframe(bool enable)
+{
+	_wireframe = enable;
+	// 끌 때 Pass가 RS를 건드리지 않으면 와이어프레임 상태가 남으므로 기본 RS로 복원
+	_deviceContext->RSSetState(enable ? _wireframeRasterizerState.Get() : nullptr);
+}
+
+void Graphics::CreateWireframeRasterizerState()
+{
+	D3D11_RASTERIZER_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+	desc.FillMode = D3D11_FILL_WIREFRAME;
+	desc.CullMode = D3D11_CULL_NONE;
+	desc.DepthClipEnable = TRUE;
+
+	HRESULT hr = _device->CreateRasterizerState(&desc, _wireframeRasterizerState.GetAddressOf());
+	CHECK(hr);
 }

@@ -13,6 +13,17 @@ void Console::Init()
 	{
 		_history.clear();
 	});
+
+	// wireframe [0|1] — 인자 없으면 토글
+	RegisterCommand("wireframe", [this](const vector<string>& args)
+	{
+		bool enable = !GRAPHICS->IsWireframe();
+		if (!args.empty())
+			enable = (args[0] == "1" || args[0] == "on" || args[0] == "true");
+
+		GRAPHICS->SetWireframe(enable);
+		Log(string("wireframe: ") + (enable ? "on" : "off"));
+	});
 }
 
 void Console::Update()
