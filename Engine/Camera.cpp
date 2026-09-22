@@ -29,7 +29,15 @@ void Camera::UpdateMatrix()
 
 	//S_MatView = GetTransform()->GetWorldMatrix().Invert();
 
-	_matProjection = ::XMMatrixPerspectiveFovLH(_fov, _width / _height, _near, _far);
+	if (_projectionType == ProjectionType::Orthographic)
+	{
+		const float aspect = _width / _height;
+		_matProjection = ::XMMatrixOrthographicLH(_orthoSize * aspect, _orthoSize, _near, _far);
+	}
+	else
+	{
+		_matProjection = ::XMMatrixPerspectiveFovLH(_fov, _width / _height, _near, _far);
+	}
 	S_MatView = _matView;
 	S_MatProjection = _matProjection;
 }

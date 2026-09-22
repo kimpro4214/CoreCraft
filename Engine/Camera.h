@@ -28,6 +28,14 @@ public:
 		_width = max(width, 1.f);
 		_height = max(height, 1.f);
 	}
+	void SetProjectionType(ProjectionType type) { _projectionType = type; }
+	void SetOrthoSize(float value) { _orthoSize = max(value, 0.01f); }
+
+	ProjectionType GetProjectionType() const { return _projectionType; }
+	float GetOrthoSize() const { return _orthoSize; }
+	float GetNear() const { return _near; }
+	float GetFar() const { return _far; }
+	float GetFOV() const { return _fov; }
 
 	Matrix& GetViewMatrix() { return _matView; }
 	Matrix& GetProjectionMatrix() { return _matProjection; }
@@ -36,9 +44,11 @@ private:
 	Matrix _matView = Matrix::Identity;
 	Matrix _matProjection = Matrix::Identity;
 
+	ProjectionType _projectionType = ProjectionType::Perspective;
 	float _near = 1.f;
 	float _far = 1000.f;
 	float _fov = XM_PI / 4.f;
+	float _orthoSize = 10.f; // 직교 투영 시 뷰 세로 높이(월드 단위)
 	float _width = 0.f;
 	float _height = 0.f;
 
