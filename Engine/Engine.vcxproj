@@ -166,6 +166,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="FileUtils.h" />
@@ -236,6 +237,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="FileUtils.cpp" />
     <ClCompile Include="FName.cpp" />
     <ClCompile Include="FObjectIterator.cpp" />

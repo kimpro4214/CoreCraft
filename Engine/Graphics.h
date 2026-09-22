@@ -18,11 +18,17 @@ public:
 	ID3D11DepthStencilView* GetBackBufferDSV() const { return _depthStencilView.Get(); }
 	const D3D11_VIEWPORT& GetViewport() const { return _viewport; }
 
+	// 와이어프레임 디버그 모드 (활성화 시 모든 Pass의 RasterizerState를 덮어씀)
+	void SetWireframe(bool enable);
+	bool IsWireframe() const { return _wireframe; }
+	ID3D11RasterizerState* GetWireframeRasterizerState() const { return _wireframeRasterizerState.Get(); }
+
 private:
 	void CreateDeviceAndSwapChain();
 	void CreateRenderTargetView();
 	void CreateDepthStencilView();
 	void SetViewport(uint32 width, uint32 height);
+	void CreateWireframeRasterizerState();
 
 private:
 	HWND _hwnd = {};
@@ -41,5 +47,9 @@ private:
 
 	// Misc
 	D3D11_VIEWPORT _viewport = { 0 };
+
+	// Wireframe
+	ComPtr<ID3D11RasterizerState> _wireframeRasterizerState;
+	bool _wireframe = false;
 };
 

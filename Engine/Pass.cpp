@@ -43,11 +43,16 @@ void Pass::BeginDraw()
 
 	DC->IASetInputLayout(inputLayout.Get());
 	pass->Apply(0, DC.Get());
+
+	if (GRAPHICS->IsWireframe())
+		DC->RSSetState(GRAPHICS->GetWireframeRasterizerState());
 }
 
 void Pass::EndDraw()
 {
-	if (stateblockMask.RSRasterizerState == 1)
+	if (GRAPHICS->IsWireframe())
+		DC->RSSetState(GRAPHICS->GetWireframeRasterizerState());
+	else if (stateblockMask.RSRasterizerState == 1)
 		DC->RSSetState(stateBlock->RSRasterizerState.Get());
 
 	if (stateblockMask.OMDepthStencilState == 1)

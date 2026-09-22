@@ -95,6 +95,7 @@ private:
 	bool _showContentBrowser = true;
 	bool _showOutputLog = true;
 	bool _showBlueprint = true;
+	bool _showSelectionBounds = true;
 	bool _resetLayout = true;
 	bool _focusViewport = true;
 	bool _focusBlueprint = false;

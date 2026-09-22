@@ -196,6 +196,16 @@ void EditorApp::Update()
 	}
 	if (sceneCamera) sceneCamera->Update(); else _editorCamera->Update();
 	RENDER->Update();
+
+	if (_showSelectionBounds && !_playing)
+	{
+		shared_ptr<GameObject> selected = GetSelected();
+		if (selected && selected->GetTransform() && selected->GetLight() == nullptr)
+		{
+			// PickViewportObject와 동일한 로컬 ±0.5 박스
+			DEBUG_DRAW->DrawBox(Vec3::Zero, Vec3(0.5f), selected->GetTransform()->GetWorldMatrix(), Color(1.f, 0.6f, 0.1f, 1.f));
+		}
+	}
 	LightDesc light;
 	_scene->BuildLightData(light);
 	RENDER->PushLightData(light);
@@ -289,6 +299,25 @@ void EditorApp::DrawMainMenu()
 		ImGui::MenuItem("Content Browser", nullptr, &_showContentBrowser);
 		ImGui::MenuItem("Output Log", nullptr, &_showOutputLog);
 		ImGui::MenuItem("Blueprint", nullptr, &_showBlueprint);
+		ImGui::EndMenu();
+	}
+	if (ImGui::BeginMenu("View"))
+	{
+		bool wireframe = GRAPHICS->IsWireframe();
+		if (ImGui::MenuItem("Wireframe", nullptr, &wireframe)) GRAPHICS->SetWireframe(wireframe);
+		ImGui::MenuItem("Selection Bounds", nullptr, &_showSelectionBounds);
+		ImGui::Separator();
+
+		shared_ptr<Camera> camera = _editorCamera->GetCamera();
+		const bool ortho = camera->GetProjectionType() == ProjectionType::Orthographic;
+		if (ImGui::MenuItem("Perspective", nullptr, !ortho)) camera->SetProjectionType(ProjectionType::Perspective);
+		if (ImGui::MenuItem("Orthographic", nullptr, ortho)) camera->SetProjectionType(ProjectionType::Orthographic);
+		if (ortho)
+		{
+			float orthoSize = camera->GetOrthoSize();
+			ImGui::SetNextItemWidth(120.f);
+			if (ImGui::DragFloat("Ortho Size", &orthoSize, 0.1f, 0.1f, 1000.f)) camera->SetOrthoSize(orthoSize);
+		}
 		ImGui::EndMenu();
 	}
 	if (ImGui::BeginMenu("Build"))
