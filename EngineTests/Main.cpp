@@ -329,6 +329,21 @@ namespace
 		CONSOLE->Execute("clear");
 		return CONSOLE->GetHistory().empty();
 	}
+
+	bool TestMemoryTracker()
+	{
+		constexpr int64 size = 1024 * 1024;
+		const MemoryStats before = MEMORY->GetStats();
+		unique_ptr<char[]> buffer = make_unique<char[]>(size);
+		const MemoryStats allocated = MEMORY->GetStats();
+		if (allocated.currentBytes < before.currentBytes + size) return false;
+		if (allocated.liveAllocations != before.liveAllocations + 1) return false;
+		if (allocated.peakBytes < allocated.currentBytes) return false;
+
+		buffer.reset();
+		const MemoryStats freed = MEMORY->GetStats();
+		return freed.currentBytes == before.currentBytes && freed.liveAllocations == before.liveAllocations;
+	}
 }
 
 int main()
@@ -350,6 +365,7 @@ int main()
 		{ "World DestroyActor detaches children", TestWorldDestroyActorDetachesChildren },
 		{ "FObjectIterator", TestObjectIterator },
 		{ "Console commands", TestConsoleCommands },
+		{ "Memory tracker", TestMemoryTracker },
 	};
 
 	for (const auto& [name, test] : tests)

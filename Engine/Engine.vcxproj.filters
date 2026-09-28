@@ -195,6 +195,9 @@
     <ClInclude Include="DebugDraw.h">
       <Filter>02. Managers</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryTracker.h">
+      <Filter>02. Managers</Filter>
+    </ClInclude>
     <ClInclude Include="ModelAnimation.h">
       <Filter>00. Engine\Resource\Model</Filter>
     </ClInclude>
@@ -369,6 +372,9 @@
       <Filter>02. Managers</Filter>
     </ClCompile>
     <ClCompile Include="DebugDraw.cpp">
+      <Filter>02. Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryTracker.cpp">
       <Filter>02. Managers</Filter>
     </ClCompile>
     <ClCompile Include="ModelAnimation.cpp">
