@@ -46,4 +46,7 @@ void Mesh::CreateBuffers()
 	_vertexBuffer->Create(_geometry->GetVertices());
 	_indexBuffer = make_shared<IndexBuffer>();
 	_indexBuffer->Create(_geometry->GetIndices());
+
+	const vector<VertexTextureNormalTangentData>& vertices = _geometry->GetVertices();
+	BoundingBox::CreateFromPoints(_bounds, vertices.size(), &vertices[0].position, sizeof(VertexTextureNormalTangentData));
 }

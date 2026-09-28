@@ -204,6 +204,7 @@
     <ClInclude Include="Pass.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RayIntersection.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderTexture.h" />
     <ClInclude Include="ResourceBase.h" />
@@ -314,6 +315,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RayIntersection.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="ResourceBase.cpp" />
