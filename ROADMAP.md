@@ -14,13 +14,6 @@
 충돌체(콜라이더)나 리지드바디 개념이 아예 없다. `USceneComponent`/`UPrimitiveComponent`에 바운드
 볼륨이나 충돌 채널 같은 최소한의 훅조차 없는 상태.
 
-## 피킹 업데이트
-
-`Editor::PickViewportObject`가 라이트는 `BoundingSphere`, 나머지는 로컬 공간 `BoundingBox`로만
-판정한다(`3c9bc50` 커밋에서 정교화됐지만 여전히 바운딩 볼륨 단위). 메시 단위 정밀 판정이 없어서
-울퉁불퉁한 모델일수록 피킹이 부정확하다. AABB로 먼저 걸러낸 뒤 실제 삼각형과 레이가 교차하는지
-뮐러-트럼보어(Möller–Trumbore) 알고리즘으로 정밀 판정하는 단계가 필요하다.
-
 ## 텍스처 업로드
 
 `Texture::Load`가 `LoadFromWICFile`만 써서 PNG/JPG류만 읽는다. `AssimpTool/Converter::WriteTexture`는
@@ -65,11 +58,6 @@ Top/Front/Side(직교) + Perspective 4분할 뷰를 보여주려면 렌더타겟
 ## 윈도우 리사이즈 대응
 
 런타임에 창 크기를 바꿨을 때 스왑체인/뎁스버퍼/뷰포트를 다시 만드는 리사이즈 처리가 필요하다.
-
-## Heap 메모리 사용량 오버레이
-
-할당량을 추적해서 언리얼의 `stat memory`처럼 ImGui 오버레이 창으로 띄우는 기능이 없다. 커스텀
-allocator나 할당 후킹으로 힙 사용량을 추적하는 작업이 선행돼야 한다.
 
 ## 씬(월드) 매니저 확장
 
