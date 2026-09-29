@@ -77,3 +77,30 @@ Top/Front/Side(직교) + Perspective 4분할 뷰를 보여주려면 렌더타겟
 것으로 보인다. `.mtl`의 Kd(diffuse)/Ka(ambient)/Ks(specular)/Ns(shininess) 등 머티리얼 값을
 빠짐없이 읽어서 `.mesh`/`.xml`에 저장하도록 커버리지를 넓혀야 한다(정확히 어떤 필드가 지금
 빠져 있는지는 재확인 필요).
+
+## 프러스텀 컬링
+
+`Scene::Render`가 모든 `GameObject`를 조건 없이 그린다. `Engine/Frustum`에 평면 6개 추출과
+`ContainsSphere`가 이미 있지만 렌더 경로 어디에서도 호출되지 않는다. 카메라 VP에서 프러스텀을
+갱신하고, 오브젝트의 월드 바운드(메시 AABB는 `Mesh::GetBounds()`로 준비됨)로 화면 밖 오브젝트의
+드로우콜을 건너뛰어야 한다. 오픈월드 규모에서는 가장 먼저 효과가 나는 최적화다.
+
+## 오클루전 컬링
+
+프러스텀 안에 있어도 다른 물체에 완전히 가려진 오브젝트는 여전히 그려진다. 하드웨어 오클루전
+쿼리(`D3D11_QUERY_OCCLUSION`, 프레임 지연 허용) 또는 CPU 소프트웨어 뎁스 버퍼 기반 판정 중 하나를
+골라야 한다. 프러스텀 컬링과 BVH가 선행되어야 비용 대비 효과가 난다.
+
+## BVH (공간 분할 가속 구조)
+
+컬링과 피킹이 모두 오브젝트 전체를 선형 순회한다(`Scene::Render`, `EditorApp::PickViewportObject`).
+오브젝트 수가 늘면 O(N)이 병목이 되므로, 월드 AABB 기반 BVH를 구축해 프러스텀/레이 쿼리를
+O(log N)으로 줄여야 한다. 움직이는 오브젝트를 위한 갱신 전략(refit vs rebuild)도 정해야 한다.
+메시 내부 삼각형 BVH는 고폴리 모델의 정밀 피킹(`RayMeshIntersect`)에도 재사용할 수 있다.
+
+## SIMD 최적화
+
+수학 연산이 SimpleMath(`Vec3`/`Matrix`) 스칼라 래퍼 위주라 DirectXMath의 `XMVECTOR` SIMD 경로를
+거의 활용하지 못한다. 트랜스폼 계층 갱신, 컬링의 AABB-평면 판정, 레이-삼각형 판정처럼 대량으로
+반복되는 핫 루프를 `XMVECTOR`/SoA 레이아웃으로 바꿔 한 번에 여러 개를 처리하도록 최적화해야 한다.
+프로파일링으로 실제 핫스팟을 먼저 확인한 뒤 진행한다.
