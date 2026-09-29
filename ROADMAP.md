@@ -78,6 +78,25 @@ Top/Front/Side(직교) + Perspective 4분할 뷰를 보여주려면 렌더타겟
 빠짐없이 읽어서 `.mesh`/`.xml`에 저장하도록 커버리지를 넓혀야 한다(정확히 어떤 필드가 지금
 빠져 있는지는 재확인 필요).
 
+## 드로우콜 최적화 (정렬 / 배치)
+
+`Scene::Render`가 오브젝트 순서대로 `MeshRenderer::Render`를 호출해서, 오브젝트마다
+머티리얼 업데이트 → 트랜스폼 상수 버퍼 갱신 → VB/IB 바인딩 → `DrawIndexed`가 한 번씩 일어난다.
+셰이더/머티리얼/메시 기준 정렬이 없어서 State Change가 오브젝트 수만큼 반복된다. 렌더 큐에
+드로우 항목을 모은 뒤 정렬 키(셰이더 → 머티리얼 → 메시)로 정렬해 같은 상태를 연속으로 그리도록
+바꿔야 한다. 효과를 수치로 보기 위해 `stat memory`처럼 드로우콜/State Change 횟수를 보여주는
+통계 오버레이(`stat rendering` 등)를 먼저 만드는 것이 좋다.
+
+## GPU 인스턴싱
+
+`Shader`/`Technique`/`Pass`에 `DrawIndexedInstanced` 래퍼와 `INST*` 시맨틱을 슬롯 1
+per-instance로 잡는 입력 레이아웃 처리(`Shader.cpp`)는 있지만, 실제로 쓰는 곳이 없다. 셰이더에
+`INST` 입력이 없고 인스턴스 버퍼 클래스도 없다. 같은 메시+머티리얼 오브젝트들의 월드 행렬을
+인스턴스 버퍼(동적, 프레임마다 Map)에 모아 한 번의 `DrawIndexedInstanced`로 그려야 한다.
+위 정렬/배치가 선행되면 인스턴스 그룹을 자연스럽게 묶을 수 있다.
+※ `Pass::DrawIndexedInstanced`가 마지막 인자로 `startInstanceLocation` 대신
+`startIndexLocation`을 넘기는 버그가 있다(현재 호출처가 없어 무해). 인스턴싱 구현 시 함께 수정.
+
 ## 프러스텀 컬링
 
 `Scene::Render`가 모든 `GameObject`를 조건 없이 그린다. `Engine/Frustum`에 평면 6개 추출과
