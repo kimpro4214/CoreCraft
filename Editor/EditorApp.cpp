@@ -13,6 +13,7 @@
 #include "AnimatedModelRenderer.h"
 #include "PlayerController.h"
 #include "Model.h"
+#include "RayIntersection.h"
 
 namespace ed = ax::NodeEditor;
 
@@ -202,8 +203,16 @@ void EditorApp::Update()
 		shared_ptr<GameObject> selected = GetSelected();
 		if (selected && selected->GetTransform() && selected->GetLight() == nullptr)
 		{
-			// PickViewportObject와 동일한 로컬 ±0.5 박스
-			DEBUG_DRAW->DrawBox(Vec3::Zero, Vec3(0.5f), selected->GetTransform()->GetWorldMatrix(), Color(1.f, 0.6f, 0.1f, 1.f));
+			// PickViewportObject의 AABB 선검사와 동일한 로컬 박스 (메시가 없으면 ±0.5)
+			Vec3 center = Vec3::Zero;
+			Vec3 extents(0.5f);
+			shared_ptr<MeshRenderer> meshRenderer = selected->GetMeshRenderer();
+			if (meshRenderer && meshRenderer->GetMesh())
+			{
+				center = meshRenderer->GetMesh()->GetBounds().Center;
+				extents = meshRenderer->GetMesh()->GetBounds().Extents;
+			}
+			DEBUG_DRAW->DrawBox(center, extents, selected->GetTransform()->GetWorldMatrix(), Color(1.f, 0.6f, 0.1f, 1.f));
 		}
 	}
 	LightDesc light;
@@ -704,10 +713,19 @@ void EditorApp::PickViewportObject(const ImVec2& mousePosition)
 			Vec3 localOrigin = Vec3::Transform(ray.position, inverseWorld);
 			Vec3 localDirection = Vec3::TransformNormal(ray.direction, inverseWorld);
 			localDirection.Normalize();
-			DirectX::SimpleMath::Ray localRay(localOrigin, localDirection);
-			DirectX::BoundingBox bounds(Vec3::Zero, Vec3(0.5f));
 			float localDistance = 0.f;
-			intersects = localRay.Intersects(bounds, localDistance);
+			shared_ptr<MeshRenderer> meshRenderer = object->GetMeshRenderer();
+			if (meshRenderer && meshRenderer->GetMesh())
+			{
+				// AABB 선검사 후 Möller–Trumbore 삼각형 정밀 판정
+				intersects = RayMeshIntersect(localOrigin, localDirection, *meshRenderer->GetMesh(), localDistance);
+			}
+			else
+			{
+				DirectX::SimpleMath::Ray localRay(localOrigin, localDirection);
+				DirectX::BoundingBox bounds(Vec3::Zero, Vec3(0.5f));
+				intersects = localRay.Intersects(bounds, localDistance);
+			}
 			if (intersects)
 			{
 				Vec3 localHit = localOrigin + localDirection * localDistance;

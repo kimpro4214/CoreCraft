@@ -24,6 +24,19 @@ void Console::Init()
 		GRAPHICS->SetWireframe(enable);
 		Log(string("wireframe: ") + (enable ? "on" : "off"));
 	});
+
+	// stat memory — 힙 사용량 오버레이 토글
+	RegisterCommand("stat", [this](const vector<string>& args)
+	{
+		if (args.empty() || args[0] != "memory")
+		{
+			Log("Usage: stat memory");
+			return;
+		}
+
+		MEMORY->ToggleOverlay();
+		Log(string("stat memory: ") + (MEMORY->IsOverlayVisible() ? "on" : "off"));
+	});
 }
 
 void Console::Update()

@@ -25,5 +25,6 @@ public:										\
 #define GUI			GET_SINGLE(ImGuiManager)
 #define CONSOLE		GET_SINGLE(Console)
 #define DEBUG_DRAW	GET_SINGLE(DebugDraw)
+#define MEMORY		GET_SINGLE(MemoryTracker)
 #define SCENE		GET_SINGLE(SceneManager)
 #define COMPONENT_REGISTRY	GET_SINGLE(UComponentRegistry)

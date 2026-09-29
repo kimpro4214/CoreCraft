@@ -34,6 +34,7 @@ void ImGuiManager::Update()
 void ImGuiManager::Render()
 {
 	CONSOLE->Draw();
+	MEMORY->DrawOverlay();
 
 	// Rendering
 	ImGui::Render();

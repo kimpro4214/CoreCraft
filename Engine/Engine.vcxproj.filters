@@ -69,6 +69,9 @@
     <ClInclude Include="Utils.h">
       <Filter>98. Utils</Filter>
     </ClInclude>
+    <ClInclude Include="RayIntersection.h">
+      <Filter>98. Utils</Filter>
+    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>02. Managers</Filter>
     </ClInclude>
@@ -195,6 +198,9 @@
     <ClInclude Include="DebugDraw.h">
       <Filter>02. Managers</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryTracker.h">
+      <Filter>02. Managers</Filter>
+    </ClInclude>
     <ClInclude Include="ModelAnimation.h">
       <Filter>00. Engine\Resource\Model</Filter>
     </ClInclude>
@@ -246,6 +252,9 @@
       <Filter>98. Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
+      <Filter>98. Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="RayIntersection.cpp">
       <Filter>98. Utils</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
@@ -369,6 +378,9 @@
       <Filter>02. Managers</Filter>
     </ClCompile>
     <ClCompile Include="DebugDraw.cpp">
+      <Filter>02. Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryTracker.cpp">
       <Filter>02. Managers</Filter>
     </ClCompile>
     <ClCompile Include="ModelAnimation.cpp">

@@ -74,6 +74,7 @@ using namespace Microsoft::WRL;
 #include "ImGuiManager.h"
 #include "Console.h"
 #include "DebugDraw.h"
+#include "MemoryTracker.h"
 #include "Scene.h"
 #include "SceneSerializer.h"
 #include "Light.h"

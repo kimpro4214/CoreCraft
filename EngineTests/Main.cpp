@@ -10,6 +10,7 @@
 #include "UWorld.h"
 #include "UComponentRegistry.h"
 #include "Console.h"
+#include "RayIntersection.h"
 
 namespace
 {
@@ -329,6 +330,40 @@ namespace
 		CONSOLE->Execute("clear");
 		return CONSOLE->GetHistory().empty();
 	}
+
+	bool TestMemoryTracker()
+	{
+		constexpr int64 size = 1024 * 1024;
+		const MemoryStats before = MEMORY->GetStats();
+		unique_ptr<char[]> buffer = make_unique<char[]>(size);
+		const MemoryStats allocated = MEMORY->GetStats();
+		if (allocated.currentBytes < before.currentBytes + size) return false;
+		if (allocated.liveAllocations != before.liveAllocations + 1) return false;
+		if (allocated.peakBytes < allocated.currentBytes) return false;
+
+		buffer.reset();
+		const MemoryStats freed = MEMORY->GetStats();
+		return freed.currentBytes == before.currentBytes && freed.liveAllocations == before.liveAllocations;
+	}
+
+	bool TestRayTriangleIntersect()
+	{
+		// z = 5 평면 위의 삼각형
+		const Vec3 v0(-1.f, -1.f, 5.f);
+		const Vec3 v1(0.f, 1.f, 5.f);
+		const Vec3 v2(1.f, -1.f, 5.f);
+		float t = 0.f;
+
+		// 정면 히트
+		if (!RayTriangleIntersect(Vec3::Zero, Vec3(0.f, 0.f, 1.f), v0, v1, v2, t) || !NearlyEqual(t, 5.f)) return false;
+		// 삼각형 바깥
+		if (RayTriangleIntersect(Vec3(3.f, 0.f, 0.f), Vec3(0.f, 0.f, 1.f), v0, v1, v2, t)) return false;
+		// 평면과 평행
+		if (RayTriangleIntersect(Vec3::Zero, Vec3(1.f, 0.f, 0.f), v0, v1, v2, t)) return false;
+		// 레이 뒤쪽
+		if (RayTriangleIntersect(Vec3(0.f, 0.f, 10.f), Vec3(0.f, 0.f, 1.f), v0, v1, v2, t)) return false;
+		return true;
+	}
 }
 
 int main()
@@ -350,6 +385,8 @@ int main()
 		{ "World DestroyActor detaches children", TestWorldDestroyActorDetachesChildren },
 		{ "FObjectIterator", TestObjectIterator },
 		{ "Console commands", TestConsoleCommands },
+		{ "Memory tracker", TestMemoryTracker },
+		{ "Ray triangle intersect", TestRayTriangleIntersect },
 	};
 
 	for (const auto& [name, test] : tests)
